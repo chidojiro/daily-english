@@ -1,0 +1,1 @@
+export { EditWordPage } from './EditWordPage';

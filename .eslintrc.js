@@ -3,7 +3,16 @@ module.exports = {
     browser: true,
     es6: true,
   },
-  extends: ['prettier', 'prettier/@typescript-eslint', 'prettier/react'],
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/eslint-recommended',
+    'prettier',
+    'prettier/@typescript-eslint',
+    'prettier/react',
+  ],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
@@ -17,6 +26,11 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['prettier', 'react', '@typescript-eslint'],
+  // settings: {
+  //   react: {
+  //     version: 'detect',
+  //   },
+  // },
   rules: {
     //Possible Errors
     'comma-dangle': [2, 'always-multiline'], //disallow or enforce trailing commas
@@ -123,7 +137,7 @@ module.exports = {
     // 'no-undef-init': 0, //disallow use of undefined when initializing variables
     // 'no-undef': 0, //disallow use of undeclared variables unless mentioned in a /*global */ block
     // 'no-undefined': 0, //disallow use of undefined variable
-    // 'no-unused-vars': 0, //disallow declaration of variables that are not used in the code
+    'no-unused-vars': 1, //disallow declaration of variables that are not used in the code
     // 'no-use-before-define': 0, //disallow use of variables before they are defined
 
     //Node.js and CommonJS
@@ -139,24 +153,24 @@ module.exports = {
     // 'no-sync': 0, //disallow use of synchronous methods
 
     //Stylistic Issues
-    // 'array-bracket-spacing': , //enforce spacing inside array brackets 
-    // 'block-spacing': , //disallow or enforce spaces inside of single line blocks 
+    // 'array-bracket-spacing': , //enforce spacing inside array brackets
+    // 'block-spacing': , //disallow or enforce spaces inside of single line blocks
     // 'brace-style': , //enforce one true brace style
     // 'camelcase': , //require camel case names
-    // 'comma-spacing': , //enforce spacing before and after comma 
+    // 'comma-spacing': , //enforce spacing before and after comma
     // 'comma-style': , //enforce one true comma style
-    // 'computed-property-spacing': , //require or disallow padding inside computed properties 
+    // 'computed-property-spacing': , //require or disallow padding inside computed properties
     // 'consistent-this': , //enforce consistent naming when capturing the current execution context
-    // 'eol-last': , //enforce newline at the end of file, with no multiple empty lines 
+    // 'eol-last': , //enforce newline at the end of file, with no multiple empty lines
     // 'func-names': , //require function expressions to have a name
     // 'func-style': , //enforce use of function declarations or expressions
     // 'id-length': , //this option enforces minimum and maximum identifier lengths (variable names, property names etc.)
     // 'id-match': , //require identifiers to match the provided regular expression
     // 'id-blacklist': , //blacklist certain identifiers to prevent them being used
-    // 'indent': , //specify tab or space width for your code 
-    // 'jsx-quotes': , //specify whether double or single quotes should be used in JSX attributes 
+    // 'indent': , //specify tab or space width for your code
+    // 'jsx-quotes': , //specify whether double or single quotes should be used in JSX attributes
     // 'key-spacing': , //enforce spacing between keys and values in object literal properties
-    // 'keyword-spacing': , //enforce spacing before and after keywords 
+    // 'keyword-spacing': , //enforce spacing before and after keywords
     // 'linebreak-style': , //disallow mixed 'LF' and 'CRLF' as linebreaks
     // 'lines-around-comment': , //enforce empty lines around comments
     // 'max-depth': , //specify the maximum depth that blocks can be nested
@@ -173,7 +187,7 @@ module.exports = {
     // 'no-continue': , //disallow use of the continue statement
     // 'no-inline-comments': , //disallow comments inline after code
     // 'no-lonely-if': , //disallow if as the only statement in an else block
-    // 'no-mixed-spaces-and-tabs': , //disallow mixed spaces and tabs for indentation 
+    // 'no-mixed-spaces-and-tabs': , //disallow mixed spaces and tabs for indentation
     // 'no-multiple-empty-lines': , //disallow multiple empty lines
     // 'no-negated-condition': , //disallow negated conditions
     // 'no-nested-ternary': , //disallow nested ternary expressions
@@ -181,29 +195,29 @@ module.exports = {
     // 'no-plusplus': , //disallow use of unary operators, ++ and --
     // 'no-restricted-syntax': , //disallow use of certain syntax in code
     // 'no-whitespace-before-property': , //disallow whitespace before properties
-    // 'no-spaced-func': , //disallow space between function identifier and application 
+    // 'no-spaced-func': , //disallow space between function identifier and application
     // 'no-ternary': , //disallow the use of ternary operators
-    // 'no-trailing-spaces': , //disallow trailing whitespace at the end of lines 
+    // 'no-trailing-spaces': , //disallow trailing whitespace at the end of lines
     // 'no-underscore-dangle': , //disallow dangling underscores in identifiers
     // 'no-unneeded-ternary': , //disallow the use of ternary operators when a simpler alternative exists
-    // 'object-curly-spacing': , //require or disallow padding inside curly braces 
+    // 'object-curly-spacing': , //require or disallow padding inside curly braces
     // 'one-var': , //require or disallow one variable declaration per function
     // 'one-var-declaration-per-line': , //require or disallow an newline around variable declarations
     // 'operator-assignment': , //require assignment operator shorthand where possible or prohibit it entirely
     // 'operator-linebreak': , //enforce operators to be placed before or after line breaks
     // 'padded-blocks': , //enforce padding within blocks
     // 'quote-props': , //require quotes around object literal property names
-    // 'quotes': , //specify whether backticks, double or single quotes should be used 
+    // 'quotes': , //specify whether backticks, double or single quotes should be used
     // 'require-jsdoc': 0, //Require JSDoc comment
-    // 'semi-spacing': 0, //enforce spacing before and after semicolons 
-    // 'semi': 2, //require or disallow use of semicolons instead of ASI 
+    // 'semi-spacing': 0, //enforce spacing before and after semicolons
+    // 'semi': 2, //require or disallow use of semicolons instead of ASI
     // 'sort-vars': , //sort variables within the same declaration block
     // 'sort-imports': , //sort import declarations within module
-    // 'space-before-blocks': 2, //require or disallow a space before blocks 
-    // 'space-before-function-paren': , //require or disallow a space before function opening parenthesis 
-    // 'space-in-parens': , //require or disallow spaces inside parentheses 
-    // 'space-infix-ops': , //require spaces around operators 
-    // 'space-unary-ops': , //require or disallow spaces before/after unary operators 
+    // 'space-before-blocks': 2, //require or disallow a space before blocks
+    // 'space-before-function-paren': , //require or disallow a space before function opening parenthesis
+    // 'space-in-parens': , //require or disallow spaces inside parentheses
+    // 'space-infix-ops': , //require spaces around operators
+    // 'space-unary-ops': , //require or disallow spaces before/after unary operators
     // 'spaced-comment': , //require or disallow a space immediately following the // or /* in a comment
     // 'wrap-regex': , //require regex literals to be wrapped in parentheses
 
@@ -234,5 +248,11 @@ module.exports = {
 
     //@typescript-eslint
     '@typescript-eslint/explicit-function-return-type': 0,
+    '@typescript-eslint/interface-name-prefix': 0,
+    '@typescript-eslint/no-empty-function': 1,
+    '@typescript-eslint/no-unused-vars': 1,
+
+    //react/recommended
+    'react/prop-types': 0,
   },
 };

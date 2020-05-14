@@ -1,0 +1,1 @@
+export { NewWordDialog } from './NewWordDialog';
