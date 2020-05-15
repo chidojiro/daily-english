@@ -1,28 +1,35 @@
 import React, { ReactNode } from 'react';
+
 import { CommonDialog } from './commonDialog';
-import { NewWordDialog } from './newWordDialog';
 
 interface IDialogContext {
-  openDialog: (props: IOpenDialogProps) => void;
+  openCommonDialog: (props: IOpenCommonDialogProps) => void;
   closeDialog: () => void;
+  attachAdditionalOkAction: (additionalOkAction: (...args: any[]) => void) => void;
 }
 
-interface IOpenDialogProps {
-  type: 'COMMON' | 'NEW_WORD';
+interface IOpenCommonDialogProps {
   title?: string | ReactNode;
-  onOk?: () => {};
+  onOk?: (event?: React.MouseEvent<HTMLElement, MouseEvent>) => void;
   footer?: string | ReactNode;
   content?: string | ReactNode;
+  afterClose?: () => void;
+}
+
+interface IState extends IOpenCommonDialogProps {
+  additionalOkAction?: () => Promise<any> | void;
 }
 
 export const DialogContext = React.createContext<IDialogContext>(null);
 
 export const DialogContextProvider: React.FC<{}> = ({ children }) => {
-  const [state, setState] = React.useState<IOpenDialogProps>(null);
-  const { type, title, onOk, footer, content } = state || {};
+  const [state, setState] = React.useState<IState>(null);
+  const [additionalOkAction, setAdditionalOkAction] = React.useState(null);
 
-  const openDialog = React.useCallback((props: IOpenDialogProps) => {
-    setState(props);
+  const { title, onOk, footer, content, afterClose } = state || {};
+
+  const openCommonDialog = React.useCallback((props: IOpenCommonDialogProps) => {
+    setState({ ...props });
   }, []);
 
   const closeDialog = React.useCallback(() => {
@@ -30,21 +37,26 @@ export const DialogContextProvider: React.FC<{}> = ({ children }) => {
   }, []);
 
   const handleOk = React.useCallback(async () => {
-    await onOk();
+    await onOk?.();
+    await additionalOkAction();
     closeDialog();
-  }, [closeDialog, onOk]);
+  }, [additionalOkAction, closeDialog, onOk]);
+
+  const attachAdditionalOkAction = React.useCallback((additionalOkAction) => {
+    setAdditionalOkAction(() => additionalOkAction);
+  }, []);
 
   return (
-    <DialogContext.Provider value={{ openDialog, closeDialog }}>
+    <DialogContext.Provider value={{ openCommonDialog, closeDialog, attachAdditionalOkAction }}>
       <CommonDialog
-        visible={!!state && type === 'COMMON'}
+        visible={!!state}
         title={title}
         onCancel={closeDialog}
         onOk={handleOk}
         footer={footer}
         content={content}
+        afterClose={afterClose}
       />
-      <NewWordDialog visible={!!state && type === 'NEW_WORD'} onCancel={closeDialog} />
       {children}
     </DialogContext.Provider>
   );

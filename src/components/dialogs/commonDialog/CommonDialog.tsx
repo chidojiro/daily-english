@@ -8,6 +8,7 @@ interface IProps {
   content: string | ReactNode;
   onOk: () => Promise<void> | void;
   onCancel: () => void;
+  afterClose?: () => void;
 }
 
 export const CommonDialog: React.FC<IProps> = ({ visible, title, onCancel, onOk, footer, content }) => {
