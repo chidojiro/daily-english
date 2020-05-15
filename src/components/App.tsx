@@ -19,7 +19,7 @@ const App = () => {
               <SideBar />
               <PageContent>
                 <Switch>
-                  <Route path='/edit-word/:word'>
+                  <Route path='/edit-word/:wordName'>
                     <EditWordPage />
                   </Route>
                 </Switch>

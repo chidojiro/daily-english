@@ -10,10 +10,10 @@ interface IProps {
   placeholder?: string;
   messageOnError?: string;
   autoFocus?: boolean;
-  onChange: (event: string | ChangeEvent) => void;
+  onChange?: (event: string | ChangeEvent) => void;
   onFocus?: () => void;
-  onBlur?: (e: any) => void;
-  onPressEnter?: () => void;
+  onBlur?: (event: any) => void;
+  onPressEnter?: (event: any) => void;
 }
 
 export const Input: React.FC<IProps> = ({ messageOnError, ...restProps }) => {

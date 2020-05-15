@@ -24,7 +24,6 @@ export const DialogContext = React.createContext<IDialogContext>(null);
 
 export const DialogContextProvider: React.FC<{}> = ({ children }) => {
   const [state, setState] = React.useState<IState>(null);
-  const [additionalOkAction, setAdditionalOkAction] = React.useState(null);
 
   const { title, onOk, footer, content, afterClose } = state || {};
 
@@ -36,15 +35,19 @@ export const DialogContextProvider: React.FC<{}> = ({ children }) => {
     setState(null);
   }, []);
 
-  const handleOk = React.useCallback(async () => {
-    await onOk?.();
-    await additionalOkAction();
-    closeDialog();
-  }, [additionalOkAction, closeDialog, onOk]);
-
-  const attachAdditionalOkAction = React.useCallback((additionalOkAction) => {
-    setAdditionalOkAction(() => additionalOkAction);
+  const overridingOkHandler = React.useRef(null);
+  const attachAdditionalOkAction = React.useCallback((okHandler) => {
+    overridingOkHandler.current = okHandler;
   }, []);
+
+  const handleOk = React.useCallback(async () => {
+    if (overridingOkHandler.current) {
+      await overridingOkHandler.current();
+    } else {
+      await onOk?.();
+      closeDialog();
+    }
+  }, [closeDialog, onOk]);
 
   return (
     <DialogContext.Provider value={{ openCommonDialog, closeDialog, attachAdditionalOkAction }}>

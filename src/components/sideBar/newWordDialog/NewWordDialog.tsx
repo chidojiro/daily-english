@@ -24,24 +24,29 @@ export const NewWordDialogContent = () => {
     wordName: Yup.string().required('Empty word not allowed!'),
   });
 
-  const handleFormikSubmit = React.useCallback(
-    async (values = {}) => {
-      await createWord(values?.wordName);
-      history.push(`/edit-word/${values?.wordName}`);
+  const handleSubmit = React.useCallback(
+    async ({ wordName }: INewWordForm) => {
+      await createWord(wordName);
+      history.push(`/edit-word/${wordName}`);
       closeDialog();
     },
     [closeDialog, history],
   );
 
-  const { errors, handleChange, handleBlur, values, handleSubmit } = useFormik<INewWordForm>({
+  const { errors, handleChange, handleBlur, values, handleSubmit: formikHandleSubmit, isValid } = useFormik<
+    INewWordForm
+  >({
     initialValues: { [NewWordFieldNames.wordName]: '' },
-    onSubmit: handleFormikSubmit,
+    onSubmit: handleSubmit,
     validationSchema: newWordFormSchema,
   });
 
   React.useEffect(() => {
-    attachAdditionalOkAction(handleSubmit);
-  }, [attachAdditionalOkAction, handleSubmit]);
+    const additionalOkAction = () => {
+      formikHandleSubmit();
+    };
+    attachAdditionalOkAction(additionalOkAction);
+  }, [attachAdditionalOkAction, formikHandleSubmit, isValid]);
 
   return (
     <Input
@@ -50,6 +55,7 @@ export const NewWordDialogContent = () => {
       value={values.wordName}
       onChange={handleChange}
       onBlur={handleBlur}
+      onPressEnter={formikHandleSubmit}
       autoFocus
     />
   );
