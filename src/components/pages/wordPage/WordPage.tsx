@@ -4,14 +4,21 @@ import { PlusOutlined } from '@ant-design/icons';
 import { v4 as UUID } from 'uuid';
 import { groupBy } from 'lodash';
 
-import { StyledWordPage, AddMeaningButton, StyledEditableText, Meanings } from './WordPage.styled';
+import { StyledWordPage, AddMeaningButton, StyledEditableText, Meanings, DeleteWordButton } from './WordPage.styled';
 import { useMeaningDialog, IWordMeaningForm } from './meaningDialog';
 import { useParams, useHistory } from 'react-router';
 import { useAPI } from '../../useAPI';
-import { getWordDetails, updateWord, updateMeanings, deleteMeaning } from '../../../apiClients/apiClients';
+import {
+  fetchWordDetails,
+  updateWord,
+  updateMeanings,
+  deleteMeaning,
+  deleteWord,
+} from '../../../apiClients/apiClients';
 import { EditableText } from '../../inputs';
 import { IWord, IMeaning, IMeaningsByCategory, IMeaningCategoryKeys } from '../../../types';
 import { MeaningByCategory } from './meaningByCategory';
+import { useDialog } from '../../dialogs';
 
 const categories: IMeaningCategoryKeys[] = ['adjective', 'adverb', 'noun', 'verb', 'conjunction', 'idiom', 'phrasal'];
 
@@ -28,10 +35,12 @@ export const WordPage = () => {
     [history, wordName],
   );
 
-  const { data = {} as IWord, error, loaded, load } = useAPI(getWordDetails, wordName);
+  const { data = {} as IWord, error, loaded, load } = useAPI(fetchWordDetails, wordName);
   const meaningsById = data.meanings || {};
 
   const { openMeaningDialog } = useMeaningDialog();
+
+  const { openCommonDialog } = useDialog();
 
   const updateMeaning = React.useCallback(
     async (userInputs: IWordMeaningForm, id?: string) => {
@@ -46,7 +55,20 @@ export const WordPage = () => {
     openMeaningDialog({ wordName, onOk: updateMeaning, mode: 'create' });
   }, [openMeaningDialog, updateMeaning, wordName]);
 
-  const handleDelete = React.useCallback(
+  const handleDeleteWord = React.useCallback(async () => {
+    await deleteWord(wordName);
+    history.push('/');
+  }, [history, wordName]);
+
+  const handleDeleteButtonClick = React.useCallback(() => {
+    openCommonDialog({
+      title: `Delete "${wordName}"`,
+      content: `Are you sure you want to delete "${wordName}"?`,
+      onOk: handleDeleteWord,
+    });
+  }, [handleDeleteWord, openCommonDialog, wordName]);
+
+  const handleDeleteMeaning = React.useCallback(
     async (id: string) => {
       await deleteMeaning(wordName, id);
       load();
@@ -85,7 +107,7 @@ export const WordPage = () => {
                 wordName,
                 onOk: (userInput) => updateMeaning(userInput, meaning.id),
                 meaning,
-                onDelete: () => handleDelete(meaning.id),
+                onDelete: () => handleDeleteMeaning(meaning.id),
                 mode: 'edit',
               })
             }
@@ -97,6 +119,11 @@ export const WordPage = () => {
           Add a meaning
         </Button>
       </AddMeaningButton>
+      <DeleteWordButton>
+        <Button danger type='primary' onClick={handleDeleteButtonClick}>
+          Delete
+        </Button>
+      </DeleteWordButton>
     </StyledWordPage>
   );
 };

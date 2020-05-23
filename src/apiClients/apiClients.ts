@@ -1,11 +1,15 @@
 import { IWord, IMeaning } from './../types';
 import * as firebase from 'firebase';
 
-export const getWordDetails = async (name: string): Promise<IWord> =>
+export const fetchWordDetails = async (name: string): Promise<IWord> =>
   (await firebase.database().ref(`words/${name}`).once('value')).val();
 
 export const createWord = async (name: string) => {
   await firebase.database().ref(`words/${name}`).set({ createdDate: new Date().toISOString() });
+};
+
+export const deleteWord = async (name: string) => {
+  await firebase.database().ref(`words/${name}`).set(null);
 };
 
 export const updateWord = async (oldWord: string, newWord: string) => {
@@ -26,4 +30,12 @@ export const updateMeanings = async (wordName: string, meaning: IMeaning) => {
 
 export const deleteMeaning = async (wordName: string, id: string) => {
   await firebase.database().ref(`words/${wordName}/meanings/${id}`).set(null);
+};
+
+export const fetchSearchResults = async (searchQuery: string) => {
+  if (!searchQuery) {
+    return [];
+  }
+  const words = (await firebase.database().ref('words').once('value')).val();
+  return Object.keys(words).filter((word) => word.includes(searchQuery));
 };

@@ -12,7 +12,7 @@ interface IDialogContext {
 
 interface IOpenCommonDialogProps {
   title: string | React.ReactNode;
-  onOk?: (userInput: any, ...args: any[]) => void;
+  onOk: (userInput: any, ...args: any[]) => void;
   footer?: string | React.ReactNode;
   content: string | React.ReactNode;
   afterClose?: () => void;
