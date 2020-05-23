@@ -120,7 +120,7 @@ module.exports = {
     // no-useless-call //disallow unnecessary .call() and .apply()
     // no-useless-concat //disallow unnecessary concatenation of literals or template literals
     // no-void //disallow use of the void operator
-    // no-warning-comments //disallow usage of configurable warning terms in comments //e.g. TODO or FIXME
+    'no-warning-comments': 1, //disallow usage of configurable warning terms in comments //e.g. TODO or FIXME
     // no-with //disallow use of the with statement
     // radix //require use of the second argument for parseInt()
     // vars-on-top //require declaration of all vars at the top of their containing scope

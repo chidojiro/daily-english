@@ -1,56 +1,57 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 
 import { CommonDialog } from './commonDialog';
 
 interface IDialogContext {
   openCommonDialog: (props: IOpenCommonDialogProps) => void;
+  clickOk: () => Promise<void>;
   closeDialog: () => void;
-  attachAdditionalOkAction: (additionalOkAction: (...args: any[]) => void) => void;
+  syncUserInput: <T>(userInput: T) => void;
+  userInput: any;
 }
 
 interface IOpenCommonDialogProps {
-  title?: string | ReactNode;
-  onOk?: (event?: React.MouseEvent<HTMLElement, MouseEvent>) => void;
-  footer?: string | ReactNode;
-  content?: string | ReactNode;
+  title: string | React.ReactNode;
+  onOk?: (userInput: any, ...args: any[]) => void;
+  footer?: string | React.ReactNode;
+  content: string | React.ReactNode;
   afterClose?: () => void;
-}
-
-interface IState extends IOpenCommonDialogProps {
-  additionalOkAction?: () => Promise<any> | void;
 }
 
 export const DialogContext = React.createContext<IDialogContext>(null);
 
 export const DialogContextProvider: React.FC<{}> = ({ children }) => {
-  const [state, setState] = React.useState<IState>(null);
+  const [state, setState] = React.useState<IOpenCommonDialogProps>(null);
+  const [isHandlingOK, setIsHandlingOK] = React.useState(false);
 
-  const { title, onOk, footer, content, afterClose } = state || {};
+  const userInputRef = React.useRef(null);
+
+  const { onOk, title, footer, content, afterClose } = state || ({} as IOpenCommonDialogProps);
 
   const openCommonDialog = React.useCallback((props: IOpenCommonDialogProps) => {
-    setState({ ...props });
+    setState(props);
   }, []);
 
   const closeDialog = React.useCallback(() => {
     setState(null);
+    userInputRef.current = null;
   }, []);
 
-  const overridingOkHandler = React.useRef(null);
-  const attachAdditionalOkAction = React.useCallback((okHandler) => {
-    overridingOkHandler.current = okHandler;
+  const syncUserInput = React.useCallback((userInput) => {
+    userInputRef.current = userInput;
   }, []);
 
   const handleOk = React.useCallback(async () => {
-    if (overridingOkHandler.current) {
-      await overridingOkHandler.current();
-    } else {
-      await onOk?.();
-      closeDialog();
-    }
+    setIsHandlingOK(true);
+    await onOk(userInputRef.current);
+    setIsHandlingOK(false);
+    closeDialog();
   }, [closeDialog, onOk]);
 
   return (
-    <DialogContext.Provider value={{ openCommonDialog, closeDialog, attachAdditionalOkAction }}>
+    <DialogContext.Provider
+      value={{ openCommonDialog, closeDialog, clickOk: handleOk, syncUserInput, userInput: userInputRef.current }}
+    >
       <CommonDialog
         visible={!!state}
         title={title}
@@ -59,6 +60,7 @@ export const DialogContextProvider: React.FC<{}> = ({ children }) => {
         footer={footer}
         content={content}
         afterClose={afterClose}
+        isHandlingOK={isHandlingOK}
       />
       {children}
     </DialogContext.Provider>

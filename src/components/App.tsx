@@ -5,7 +5,7 @@ import { ThemeColorsContextProvider } from './themeColors';
 import { TopBar } from './topBar';
 import { SideBar } from './sideBar';
 import { StyledApp, CenterArea, PageContent } from './App.styled';
-import { EditWordPage } from './pages/editWordPage';
+import { WordPage } from './pages/wordPage';
 import { DialogContextProvider } from './dialogs';
 
 const App = () => {
@@ -19,8 +19,8 @@ const App = () => {
               <SideBar />
               <PageContent>
                 <Switch>
-                  <Route path='/edit-word/:wordName'>
-                    <EditWordPage />
+                  <Route path='/word/:wordName'>
+                    <WordPage />
                   </Route>
                 </Switch>
               </PageContent>

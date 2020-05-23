@@ -1,19 +1,12 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 import { Tooltip, Input as AntInput } from 'antd';
 import classnames from 'classnames';
 
 import { StyledInput } from './Input.styled';
+import { InputProps } from 'formik-antd';
 
-interface IProps {
-  name: string;
-  value?: string;
-  placeholder?: string;
+interface IProps extends InputProps {
   messageOnError?: string;
-  autoFocus?: boolean;
-  onChange?: (event: string | ChangeEvent) => void;
-  onFocus?: () => void;
-  onBlur?: (event: any) => void;
-  onPressEnter?: (event: any) => void;
 }
 
 export const Input: React.FC<IProps> = ({ messageOnError, ...restProps }) => {

@@ -48,8 +48,8 @@ export const themeColors: IThemeColors = {
 const GlobalStyles = createGlobalStyle`
   * {
     font-family: 'Times';
-    transition: 0s !important;
-    animation-duration: 0s !important;
+    /* transition: 0s !important;
+    animation-duration: 0s !important; */
   }
 
   .tooltip--error {

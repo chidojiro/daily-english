@@ -1,34 +1,34 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 import { Typography, Space } from 'antd';
-import { EditOutlined } from '@ant-design/icons';
+import { EditOutlined, LoadingOutlined } from '@ant-design/icons';
 
 import { Input } from '../input';
 import { StyledEditableText } from './EditableText.styled';
+import { useFormik } from 'formik';
+import { functionPlaceholder } from '../../../constants';
 
 interface IProps {
   text: string;
-  value: string;
-  name: string;
   placeholder?: string;
-  messageOnError?: string;
-  onChange?: (event: string | ChangeEvent) => void;
-  onBlur?: (event: any) => void;
-  onPressEnter?: () => Promise<void> | void;
+  onEditComplete?: (value: string) => Promise<void> | void;
 }
 
-export const EditableText: React.FC<IProps> = ({
-  value,
-  name,
-  placeholder,
-  messageOnError,
-  onChange,
-  onPressEnter,
-  onBlur,
-  text,
-}) => {
+export const EditableText: React.FC<IProps> = ({ placeholder, onEditComplete, text }) => {
   const [isInEditMode, setIsInEditMode] = React.useState(false);
+  const [isCompletingEdit, setIsCompletingEdit] = React.useState(false);
 
   const { Text } = Typography;
+
+  const {
+    handleBlur: formikHandleBlur,
+    handleChange,
+    values: { inputValue },
+    errors: { inputValue: error },
+    resetForm,
+  } = useFormik<{ inputValue: string }>({
+    initialValues: { inputValue: text },
+    onSubmit: functionPlaceholder,
+  });
 
   const enterEditMode = React.useCallback(() => {
     setIsInEditMode(true);
@@ -38,34 +38,39 @@ export const EditableText: React.FC<IProps> = ({
     setIsInEditMode(false);
   }, []);
 
-  const handlePressEnter = React.useCallback(() => {
-    onPressEnter();
-    if (!messageOnError) {
+  const handlePressEnter = React.useCallback(async () => {
+    setIsCompletingEdit(true);
+    await onEditComplete(inputValue);
+    if (!error) {
       leaveEditMode();
     }
-  }, [leaveEditMode, messageOnError, onPressEnter]);
+    setIsCompletingEdit(false);
+  }, [error, inputValue, leaveEditMode, onEditComplete]);
 
   const handleBlur = React.useCallback(
-    (event: any) => {
-      onBlur(event);
+    (event: React.FocusEvent<HTMLInputElement>) => {
+      formikHandleBlur(event);
       leaveEditMode();
+      resetForm();
     },
-    [leaveEditMode, onBlur],
+    [formikHandleBlur, leaveEditMode, resetForm],
   );
 
   return (
     <StyledEditableText>
       {isInEditMode ? (
-        <Input
-          name={name}
-          value={value}
-          onBlur={handleBlur}
-          onChange={onChange}
-          autoFocus
-          onPressEnter={handlePressEnter}
-          messageOnError={messageOnError}
-          placeholder={placeholder}
-        />
+        <>
+          <Input
+            name='inputValue'
+            value={inputValue}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            autoFocus
+            onPressEnter={handlePressEnter}
+            placeholder={placeholder}
+          />
+          {isCompletingEdit ? <LoadingOutlined /> : null}
+        </>
       ) : (
         <Space>
           <Text>{text}</Text>

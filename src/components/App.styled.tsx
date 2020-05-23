@@ -13,6 +13,6 @@ CenterArea.displayName = 'CenterArea';
 
 export const PageContent = styled.div`
   flex-grow: 1;
-  padding: 5% 2% 0;
+  padding: 5% 10% 0;
 `;
 PageContent.displayName = 'PageContent';
