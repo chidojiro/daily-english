@@ -1,5 +1,10 @@
-import { IWord, IMeaning } from './../types';
+import { IWord, IMeaning, IWordByName } from './../types';
 import * as firebase from 'firebase';
+
+export const fetchWords = async () => (await firebase.database().ref('words').once('value')).val();
+
+export const fetchRecentWords = async (quantity: number): Promise<IWordByName> =>
+  (await firebase.database().ref('words').endAt(quantity).once('value')).val();
 
 export const fetchWordDetails = async (name: string): Promise<IWord> =>
   (await firebase.database().ref(`words/${name}`).once('value')).val();
@@ -36,6 +41,19 @@ export const fetchSearchResults = async (searchQuery: string) => {
   if (!searchQuery) {
     return [];
   }
-  const words = (await firebase.database().ref('words').once('value')).val();
+  const words = await fetchWords();
   return Object.keys(words).filter((word) => word.includes(searchQuery));
+};
+
+export const startStagingWord = async (wordName: string) => {
+  const today = new Date().toDateString();
+  await Promise.all([
+    firebase
+      .database()
+      .ref(`staging/${today}`)
+      .update({
+        [wordName]: true,
+      }),
+    firebase.database().ref(`words/${wordName}`).update({ stage: 0 }),
+  ]);
 };

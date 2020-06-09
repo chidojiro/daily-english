@@ -46,8 +46,12 @@ export const themeColors: IThemeColors = {
 };
 
 const GlobalStyles = createGlobalStyle`
+  html {
+    font-size: 16px;
+  }
+  
   * {
-    font-family: 'Times';
+    font-family: '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
     /* transition: 0s !important;
     animation-duration: 0s !important; */
   }
@@ -56,6 +60,10 @@ const GlobalStyles = createGlobalStyle`
     .ant-tooltip-arrow::before, .ant-tooltip-inner {
       background: ${themeColors.RED};
     }
+  }
+
+  a {
+    color: inherit;
   }
 `;
 

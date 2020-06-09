@@ -39,3 +39,5 @@ export const WordCategoryMeta = {
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export const functionPlaceholder = () => {};
+
+export const levelMapping = [1, 1, 1, 2, 2, 4, 4, 7, 7, 15, 15, 30, 30];

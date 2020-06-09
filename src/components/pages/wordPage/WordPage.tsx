@@ -7,7 +7,7 @@ import { groupBy } from 'lodash';
 import { StyledWordPage, AddMeaningButton, StyledEditableText, Meanings, DeleteWordButton } from './WordPage.styled';
 import { useMeaningDialog, IWordMeaningForm } from './meaningDialog';
 import { useParams, useHistory } from 'react-router';
-import { useAPI } from '../../useAPI';
+import { useAPI } from '../../hooks/useAPI';
 import {
   fetchWordDetails,
   updateWord,

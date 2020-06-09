@@ -1,5 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Menu, Button, Tooltip } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
 
@@ -29,7 +30,17 @@ export const SideBar = () => {
       <Tooltip title='New word'>
         <Button shape='circle' icon={<PlusCircleOutlined />} className='new-word-btn' onClick={handleAddWordClick} />
       </Tooltip>
-      <Menu></Menu>
+      <Menu defaultSelectedKeys={['dashboard']} mode='inline'>
+        <Menu.Item key='dashboard'>
+          <Link to='/'>Dashboard</Link>
+        </Menu.Item>
+        <Menu.Item>
+          <Link to='/daily-duty'>Daily duty</Link>
+        </Menu.Item>
+        <Menu.Item>
+          <Link to='/recently-created'>Recently created</Link>
+        </Menu.Item>
+      </Menu>
     </StyledSideBar>
   );
 };
