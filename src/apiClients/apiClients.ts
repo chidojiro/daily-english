@@ -30,6 +30,7 @@ export const updateMeanings = async (wordName: string, meaning: IMeaning) => {
   await firebase
     .database()
     .ref(`words/${wordName}/meanings/${meaning.id}`)
+    // firebase does not accept undefined
     .set({ ...meaning, categoryMeta: meaning.categoryMeta || null });
 };
 
@@ -47,6 +48,7 @@ export const fetchSearchResults = async (searchQuery: string) => {
 
 export const startStagingWord = async (wordName: string) => {
   const today = new Date().toDateString();
+
   await Promise.all([
     firebase
       .database()
@@ -54,6 +56,6 @@ export const startStagingWord = async (wordName: string) => {
       .update({
         [wordName]: true,
       }),
-    firebase.database().ref(`words/${wordName}`).update({ stage: 0 }),
+    firebase.database().ref(`words/${wordName}`).update({ stage: 0, stageDueData: today }),
   ]);
 };

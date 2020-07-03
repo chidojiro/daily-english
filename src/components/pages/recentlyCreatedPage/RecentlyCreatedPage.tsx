@@ -40,18 +40,25 @@ export const RecentlyCreatedPage = () => {
         key: 'createdDate',
         dataIndex: 'createdDate',
         title: 'Created date',
-        render: (date: string) => moment(date).format('MMMM Do YYYY'),
+        render: (date: string) => moment(date).format('DD/MM'),
         sorter: (a: any, b: any) => moment(a.createdDate).unix() - moment(b.createdDate).unix(),
         defaultSortOrder: 'descend',
+        className: 'table__column--center',
       },
-      { key: 'numberOfMeanings', dataIndex: 'numberOfMeanings', title: 'Number of meanings' },
+      {
+        key: 'numberOfMeanings',
+        dataIndex: 'numberOfMeanings',
+        title: 'Meanings quantity',
+        className: 'table__column--center',
+      },
       {
         key: 'stage',
         dataIndex: 'stage',
         title: 'Stage',
         // eslint-disable-next-line react/display-name
-        render: (stage: number | undefined, record: any) =>
-          typeof stage === 'number' ? (
+        render: (stage: number, record: any) =>
+          // 0 and undefined are both falsy, and stage maybe 0
+          stage !== undefined ? (
             stage
           ) : (
             <Button
@@ -59,13 +66,25 @@ export const RecentlyCreatedPage = () => {
                 await startStagingWord(record.name);
                 setRecentWordsByName({
                   ...recentWordsByName,
-                  [record.name]: { ...recentWordsByName[record.name], stage: 0 },
+                  [record.name]: {
+                    ...recentWordsByName[record.name],
+                    stage: 0,
+                    stageDueDate: new Date().toDateString(),
+                  },
                 });
               }}
             >
               Stage
             </Button>
           ),
+        className: 'table__column--center',
+      },
+      {
+        key: 'stageDueDate',
+        dataIndex: 'stageDueDate',
+        title: 'Due Date',
+        render: (date: string) => moment(date).format('DD/MM'),
+        className: 'table__column--center',
       },
     ],
     [recentWordsByName],

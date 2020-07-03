@@ -10,7 +10,7 @@ export const StyledMeaningByCategory = styled.div`
 `;
 StyledMeaningByCategory.displayName = 'StyledMeaningByCategory';
 
-export const Meaning = styled.div`
+export const StyledMeaning = styled.div`
   position: relative;
   margin-top: 10px;
 
@@ -26,7 +26,16 @@ export const Meaning = styled.div`
     transform: translate(-150%, 5px);
   }
 `;
-Meaning.displayName = 'Meaning';
+StyledMeaning.displayName = 'StyledMeaning';
 
-export const Meanings = styled.div``;
-Meanings.displayName = 'Meanings';
+export const StyledMeanings = styled.div``;
+StyledMeanings.displayName = 'StyledMeanings';
+
+export const StyledExtensionContainer = styled.div`
+  padding: 10px 20px;
+  background: ${({ theme }) => theme.PALE_BLUE};
+  .extension-meaning {
+    color: ${({ theme }) => theme.BASE};
+  }
+`;
+StyledExtensionContainer.displayName = 'StyledExtensionContainer';

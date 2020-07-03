@@ -1,5 +1,5 @@
 import React from 'react';
-import { Space, Select as AntdSelect, Button } from 'antd';
+import { Space, Select as AntdSelect, Button, Collapse } from 'antd';
 import { Formik, Field, FieldProps } from 'formik';
 import { Select } from 'formik-antd';
 
@@ -16,6 +16,9 @@ export enum WordMeaningFormFields {
   meaning = 'meaning',
   example = 'example',
   note = 'note',
+  extension = 'extension',
+  extensionMeaning = 'extensionMeaning',
+  extensionExample = 'extensionExample',
 }
 
 interface ICategoryProperties {
@@ -29,6 +32,9 @@ export interface IWordMeaningForm {
   [WordMeaningFormFields.categoryMeta]: IMeaningCategoryMeta;
   [WordMeaningFormFields.example]: string;
   [WordMeaningFormFields.note]: string;
+  [WordMeaningFormFields.extension]: string;
+  [WordMeaningFormFields.extensionMeaning]: string;
+  [WordMeaningFormFields.extensionExample]: string;
 }
 
 const wordFormProperties: ICategoryProperties[] = [
@@ -56,6 +62,9 @@ const MeaningDialogContent = () => {
             categoryMeta: {},
             note: '',
             category: 'adjective',
+            extension: '',
+            extensionMeaning: '',
+            extensionExample: '',
           }) as IWordMeaningForm
         }
         onSubmit={functionPlaceholder}
@@ -97,6 +106,27 @@ const MeaningDialogContent = () => {
                 <TextArea messageOnError={error} autoSize placeholder='Enter a note' {...field} />
               )}
             </Field>
+            <Collapse>
+              <Collapse.Panel header='Extension' key='1'>
+                <Space direction='vertical' style={{ width: '100%' }}>
+                  <Field name={WordMeaningFormFields.extension}>
+                    {({ field, meta: { error } }: FieldProps) => (
+                      <TextArea messageOnError={error} autoSize placeholder='Enter an extension' {...field} />
+                    )}
+                  </Field>
+                  <Field name={WordMeaningFormFields.extensionMeaning}>
+                    {({ field, meta: { error } }: FieldProps) => (
+                      <TextArea messageOnError={error} autoSize placeholder='Enter an extension meaning' {...field} />
+                    )}
+                  </Field>
+                  <Field name={WordMeaningFormFields.extensionExample}>
+                    {({ field, meta: { error } }: FieldProps) => (
+                      <TextArea messageOnError={error} autoSize placeholder='Enter an extension example' {...field} />
+                    )}
+                  </Field>
+                </Space>
+              </Collapse.Panel>
+            </Collapse>
             {syncUserInput<IWordMeaningForm>(values)}
           </Space>
         )}

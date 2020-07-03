@@ -1,15 +1,12 @@
 import React from 'react';
-import { Switch, Route, BrowserRouter as Router, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import { ThemeColorsContextProvider } from './themeColors';
 import { TopBar } from './topBar';
 import { SideBar } from './sideBar';
 import { StyledApp, CenterArea, PageContent } from './App.styled';
-import { WordPage } from './pages/wordPage';
 import { DialogContextProvider } from './dialogs';
-import { RecentlyCreatedPage } from './pages/recentlyCreatedPage';
-
-(String.prototype as any).encode = (str: string) => encodeURIComponent(str);
+import { Routes } from './Routes';
 
 const App = () => {
   return (
@@ -21,11 +18,7 @@ const App = () => {
             <CenterArea>
               <SideBar />
               <PageContent>
-                <Switch>
-                  <Route path='/word/:wordName' component={WordPage} />
-                  <Route path='/recently-created' component={RecentlyCreatedPage} />
-                  <Redirect to='/' />
-                </Switch>
+                <Routes />
               </PageContent>
             </CenterArea>
           </StyledApp>

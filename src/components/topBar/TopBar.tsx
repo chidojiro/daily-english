@@ -11,23 +11,27 @@ export const TopBar = () => {
   const [debounceSearch, setDebounceSearch] = React.useState('');
 
   const globalSearchDebounce = React.useRef(null);
+  const searchDebounceTimeout = globalSearchDebounce.current;
 
   const history = useHistory();
 
-  const handleSearchChange = React.useCallback((value: string) => {
-    setSearch(value);
-    clearTimeout(globalSearchDebounce.current);
-    globalSearchDebounce.current = setTimeout(() => setDebounceSearch(value), 500);
-  }, []);
+  const handleSearchChange = React.useCallback(
+    (value: string) => {
+      setSearch(value);
+      clearTimeout(searchDebounceTimeout);
+      globalSearchDebounce.current = setTimeout(() => setDebounceSearch(value), 500);
+    },
+    [searchDebounceTimeout],
+  );
 
   const viewWord = React.useCallback(
     (word) => {
-      clearTimeout(globalSearchDebounce.current);
+      clearTimeout(searchDebounceTimeout);
       history.push(`/word/${word}`);
       setSearch('');
       setDebounceSearch('');
     },
-    [history],
+    [history, searchDebounceTimeout],
   );
 
   const { data = [] } = useAPI(fetchSearchResults, debounceSearch);

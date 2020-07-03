@@ -20,6 +20,9 @@ export interface IMeaning {
   meaning: string;
   example: string;
   note: string;
+  extension: string;
+  extensionMeaning: string;
+  extensionExample: string;
 }
 
 export interface IMeaningByID {

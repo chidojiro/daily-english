@@ -8,6 +8,7 @@ type IAvailableThemeColors =
   | 'RED'
   | 'GREEN'
   | 'BLUE'
+  | 'PALE_BLUE'
   | 'WHITE'
   | 'BLACK'
   | 'LIGHT_GREY_1'
@@ -41,6 +42,7 @@ export const themeColors: IThemeColors = {
   BLACK: '#000000',
   WHITE: '#FFFFFF',
   BLUE: '#2d75ce',
+  PALE_BLUE: 'rgba(45, 117, 206, 0.2)',
   GREEN: '#00a596',
   RED: '#dc2d30',
 };
@@ -63,8 +65,19 @@ const GlobalStyles = createGlobalStyle`
   }
 
   a {
-    color: inherit;
+    color: ${themeColors.BASE};
   }
+
+  .table__column--center {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .width-fit {
+    width: fit-content;
+  }
+
 `;
 
 export const ThemeColorsContextProvider: React.FC<{}> = ({ children }) => (

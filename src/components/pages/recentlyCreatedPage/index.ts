@@ -1,1 +1,1 @@
-export { RecentlyCreatedPage } from './RecentlyCreatedPage';
+export { RecentlyCreatedPage as default } from './RecentlyCreatedPage';

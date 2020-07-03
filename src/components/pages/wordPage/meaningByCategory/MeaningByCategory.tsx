@@ -2,7 +2,12 @@ import React from 'react';
 import { Typography } from 'antd';
 import { IMeaning, IMeaningCategoryKeys } from '../../../../types';
 import { EditOutlined } from '@ant-design/icons';
-import { Meaning, StyledMeaningByCategory, Meanings } from './MeaningByCategory.styled';
+import {
+  StyledMeaning,
+  StyledMeaningByCategory,
+  StyledMeanings,
+  StyledExtensionContainer,
+} from './MeaningByCategory.styled';
 
 const { Title, Text } = Typography;
 
@@ -33,11 +38,11 @@ export const MeaningByCategory: React.FC<IProps> = ({ meanings, category, onEdit
         {categoryLabelMapping[category]}
       </Title>
       {meanings.map((meaning) => (
-        <Meanings key={meaning.id}>
-          <Meaning>
+        <StyledMeanings key={meaning.id}>
+          <StyledMeaning>
             <EditOutlined onClick={() => onEditClick(meaning)} />
             <Text className='meaning'>{meaning.meaning}</Text>
-          </Meaning>
+          </StyledMeaning>
           {meaning.example && (
             <ul>
               {meaning.example.split('\n').map((ex) => (
@@ -47,7 +52,22 @@ export const MeaningByCategory: React.FC<IProps> = ({ meanings, category, onEdit
               ))}
             </ul>
           )}
-        </Meanings>
+          {meaning.extension && (
+            <StyledExtensionContainer>
+              <Title level={4}>{meaning.extension}</Title>
+              <Text className='extension-meaning'>{meaning.extensionMeaning}</Text>
+              {meaning.extensionExample && (
+                <ul>
+                  {meaning.extensionExample.split('\n').map((ex) => (
+                    <li key={ex}>
+                      <Text className='example'>{ex}</Text>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </StyledExtensionContainer>
+          )}
+        </StyledMeanings>
       ))}
     </StyledMeaningByCategory>
   );

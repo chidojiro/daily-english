@@ -1,4 +1,3 @@
-// disclaimer: this is a component I already made in my personal project, but it's all my own code
 import React from 'react';
 
 import { CommonDialog } from './commonDialog';
