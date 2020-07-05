@@ -10,7 +10,7 @@ import { RiseOutlined } from '@ant-design/icons';
 export const PageDailyDuty = () => {
   const { data, loaded } = useAPI(fetchDueWords);
 
-  const leftPageHeader = React.useMemo(() => <Typography.Title level={2}>Today&apos;s Workload</Typography.Title>, []);
+  const leftPageHeader = React.useMemo(() => <Typography.Title level={2}>Today&apos;s workload</Typography.Title>, []);
 
   const rightPageHeader = React.useMemo(
     () => (

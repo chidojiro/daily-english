@@ -14,14 +14,14 @@ const firebaseConfig = {
 };
 
 const devFirebaseConfig = {
-  apiKey: 'AIzaSyCuwPwFw22P8o8Dt3fQxOJg-LpuKQ3VpOk',
-  authDomain: 'vocab-dev.firebaseapp.com',
-  databaseURL: 'https://vocab-dev.firebaseio.com',
-  projectId: 'vocab-dev',
-  storageBucket: 'vocab-dev.appspot.com',
-  messagingSenderId: '501894563267',
-  appId: '1:501894563267:web:957d9cf47a38af77e5e976',
-  measurementId: 'G-CVQ8QZSKVS',
+  apiKey: 'AIzaSyBadH4Xxer0oOIISZE-fJhui9qgAAp_BQI',
+  authDomain: 'daivoca-devepopment.firebaseapp.com',
+  databaseURL: 'https://daivoca-devepopment.firebaseio.com',
+  projectId: 'daivoca-devepopment',
+  storageBucket: 'daivoca-devepopment.appspot.com',
+  messagingSenderId: '522139265741',
+  appId: '1:522139265741:web:967536066054ad3af7d784',
+  measurementId: 'G-XD3QKGK7BQ',
 };
 
 firebase.initializeApp(isDev ? devFirebaseConfig : firebaseConfig);
