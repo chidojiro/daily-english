@@ -24,4 +24,4 @@ const devFirebaseConfig = {
   measurementId: 'G-CVQ8QZSKVS',
 };
 
-firebase.initializeApp(!isDev ? devFirebaseConfig : firebaseConfig);
+firebase.initializeApp(isDev ? devFirebaseConfig : firebaseConfig);
