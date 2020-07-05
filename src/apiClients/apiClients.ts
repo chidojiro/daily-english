@@ -5,19 +5,18 @@ export const fetchWordDetails = async (name: string): Promise<IWord> =>
   (await firebase.database().ref(`words/${name}`).once('value')).val();
 
 const removeDueDatesFromWord = async (wordName: string) => {
-  firebase.database().ref(`words/${wordName}`).update({ stageDueDate: null, previousStageDueDate: null });
+  await firebase.database().ref(`words/${wordName}`).update({ stageDueDate: null, previousStageDueDate: null });
 };
 
-const updateDueDates = async (wordName: string) => {
-  const wordDetails = await fetchWordDetails(wordName);
+const updateDueDates = async ({ name, stageDueDate }: IWord) => {
   firebase
     .database()
-    .ref(`words/${wordName}`)
-    .update({ stageDueDate: new Date().toDateString(), previousStageDueDate: wordDetails.stageDueDate || null });
+    .ref(`words/${name}`)
+    .update({ stageDueDate: new Date().toDateString(), previousStageDueDate: stageDueDate || null });
 };
 
-const updateWordStage = async (wordName: string, stage: number) => {
-  await Promise.all([firebase.database().ref(`words/${wordName}`).update({ stage }), updateDueDates(wordName)]);
+const updateWordStage = async (word: IWord, stage: number) => {
+  await Promise.all([firebase.database().ref(`words/${word.name}`).update({ stage }), updateDueDates(word)]);
 };
 
 const addWordToDueDate = async (date: string, wordName: string) => {
@@ -29,13 +28,21 @@ const addWordToDueDate = async (date: string, wordName: string) => {
     });
 };
 
-const removeWordFromDueDate = async (date: string, wordName: string) => {
-  firebase
-    .database()
-    .ref(`staging/dueDate/${date}`)
-    .update({
-      [wordName]: null,
-    });
+const removeWordFromDueDate = async ({ name, stageDueDate, previousStageDueDate }: IWord) => {
+  await Promise.all([
+    firebase
+      .database()
+      .ref(`staging/dueDate/${stageDueDate}`)
+      .update({
+        [name]: null,
+      }),
+    firebase
+      .database()
+      .ref(`staging/previousDueDate/${previousStageDueDate}`)
+      .update({
+        [name]: null,
+      }),
+  ]);
 };
 
 export const fetchWords = async (): Promise<IWordByName> =>
@@ -59,10 +66,7 @@ export const createWord = async (name: string) => {
 };
 
 export const deleteWord = async (word: IWord) => {
-  await Promise.all([
-    firebase.database().ref(`words/${word.name}`).set(null),
-    removeWordFromDueDate(word.stageDueDate, word.name),
-  ]);
+  await Promise.all([firebase.database().ref(`words/${word.name}`).set(null), removeWordFromDueDate(word)]);
 };
 
 export const updateWordName = async (oldWord: string, newWord: string) => {
@@ -84,8 +88,8 @@ export const updateMeanings = async (wordName: string, meaning: IMeaning) => {
     .set({ ...meaning, categoryMeta: meaning.categoryMeta || null });
 };
 
-export const deleteMeaning = async (wordName: string, id: string) => {
-  await firebase.database().ref(`words/${wordName}/meanings/${id}`).set(null);
+export const deleteMeaning = async (wordName: string, meaningID: string) => {
+  await firebase.database().ref(`words/${wordName}/meanings/${meaningID}`).set(null);
 };
 
 export const fetchSearchResults = async (searchQuery: string) => {
@@ -96,16 +100,13 @@ export const fetchSearchResults = async (searchQuery: string) => {
   return Object.keys(words).filter((word) => word.includes(searchQuery));
 };
 
-export const startStagingWord = async (wordName: string) => {
+export const startStagingWord = async (word: IWord) => {
   const today = new Date().toDateString();
 
-  await Promise.all([updateWordStage(wordName, 0), addWordToDueDate(today, wordName)]);
+  await Promise.all([updateWordStage(word, 0), addWordToDueDate(today, word.name)]);
 };
 
-export const stopStagingWord = async (date: string, wordName: string) => {
-  await Promise.all([
-    updateWordStage(wordName, null),
-    removeDueDatesFromWord(wordName),
-    removeWordFromDueDate(date, wordName),
-  ]);
+export const stopStagingWord = async (word: IWord) => {
+  await Promise.all([updateWordStage(word, null), removeDueDatesFromWord(word.name), removeWordFromDueDate(word)]);
+  debugger;
 };

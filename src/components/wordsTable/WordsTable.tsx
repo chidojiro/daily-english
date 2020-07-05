@@ -21,12 +21,12 @@ export const WordsTable: React.FC<IProps> = ({ wordsByName: wordsByNameProp }) =
   }, [wordsByNameProp]);
 
   const handleStartStagingWordClick = React.useCallback(
-    async ({ name }: IWord) => {
-      await startStagingWord(name);
+    async (word: IWord) => {
+      await startStagingWord(word);
       setWordsByName({
         ...wordsByName,
-        [name]: {
-          ...wordsByName[name],
+        [word.name]: {
+          ...wordsByName[word.name],
           stage: 0,
           stageDueDate: new Date().toDateString(),
         },
@@ -36,8 +36,8 @@ export const WordsTable: React.FC<IProps> = ({ wordsByName: wordsByNameProp }) =
   );
 
   const handleStopStagingWordClick = React.useCallback(
-    async ({ name, stageDueDate }: IWord) => {
-      await stopStagingWord(stageDueDate, name);
+    async ({ name }: IWord) => {
+      await stopStagingWord(wordsByName[name]);
       setWordsByName({
         ...wordsByName,
         [name]: {
