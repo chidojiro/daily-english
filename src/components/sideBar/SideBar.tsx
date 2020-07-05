@@ -35,16 +35,20 @@ export const SideBar = () => {
 
   // identify current nav item
   useEffect(() => {
-    navConfigs.forEach(({ to }) => {
+    for (const { to } of navConfigs) {
       const isMatchingPath = matchPath(location.pathname, {
         path: to,
+        exact: true,
         strict: true,
       });
 
       if (isMatchingPath) {
         setCurrentNavKey(to);
+        return;
       }
-    });
+    }
+
+    setCurrentNavKey('');
   }, [location.pathname]);
 
   const handleOk = React.useCallback(

@@ -4,39 +4,39 @@ import { PlusOutlined } from '@ant-design/icons';
 import { v4 as UUID } from 'uuid';
 import { groupBy } from 'lodash';
 
-import { StyledWordPage, AddMeaningButton, StyledEditableText, Meanings, DeleteWordButton } from './WordPage.styled';
+import { StyledWordPage, AddMeaningButton, StyledEditableText, Meanings, DeleteWordButton } from './Word.page.styled';
 import { useMeaningDialog, IWordMeaningForm } from './meaningDialog';
 import { useParams, useHistory } from 'react-router';
-import { useAPI } from '../../hooks/useAPI';
+import { useAPI } from '../../components/hooks/useAPI';
 import {
   fetchWordDetails,
-  updateWord,
+  updateWordName,
   updateMeanings,
   deleteMeaning,
   deleteWord,
-} from '../../../apiClients/apiClients';
-import { EditableText } from '../../inputs';
-import { IWord, IMeaning, IMeaningsByCategory, IMeaningCategoryKeys } from '../../../types';
+} from '../../apiClients/apiClients';
+import { EditableText } from '../../components/inputs';
+import { IWord, IMeaning, IMeaningsByCategory, IMeaningCategoryKeys } from '../../types';
 import { MeaningByCategory } from './meaningByCategory';
-import { useDialog } from '../../dialogs';
+import { useDialog } from '../../components/dialogs';
 
 const categories: IMeaningCategoryKeys[] = ['adjective', 'adverb', 'noun', 'verb', 'conjunction', 'idiom', 'phrasal'];
 
-export const WordPage = () => {
+export const PageWord = () => {
   const { wordName } = useParams();
   const history = useHistory();
 
   const handleChangeWord = React.useCallback(
     async (newWordName) => {
       const trimmedNewWordName = newWordName.trim();
-      await updateWord(wordName, trimmedNewWordName);
+      await updateWordName(wordName, trimmedNewWordName);
       history.push(`/word/${trimmedNewWordName}`);
     },
     [history, wordName],
   );
 
-  const { data = {} as IWord, error, loaded, load } = useAPI(fetchWordDetails, wordName);
-  const meaningsById = data.meanings || {};
+  const { data: word = {} as IWord, error, loaded, load } = useAPI(fetchWordDetails, wordName);
+  const meaningsById = word.meanings || {};
 
   const { openMeaningDialog } = useMeaningDialog();
 
@@ -56,9 +56,9 @@ export const WordPage = () => {
   }, [openMeaningDialog, updateMeaning, wordName]);
 
   const handleDeleteWord = React.useCallback(async () => {
-    await deleteWord(wordName);
+    await deleteWord(word);
     history.push('/');
-  }, [history, wordName]);
+  }, [history, word]);
 
   const handleDeleteButtonClick = React.useCallback(() => {
     openCommonDialog({

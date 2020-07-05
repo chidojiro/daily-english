@@ -68,10 +68,15 @@ const GlobalStyles = createGlobalStyle`
     color: ${themeColors.BASE};
   }
 
-  .table__column--center {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
+  .table__column--center  {
+    text-align: center !important;
+
+    & > * {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
   }
 
   .width-fit {

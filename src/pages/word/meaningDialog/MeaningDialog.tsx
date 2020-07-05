@@ -3,12 +3,12 @@ import { Space, Select as AntdSelect, Button, Collapse } from 'antd';
 import { Formik, Field, FieldProps } from 'formik';
 import { Select } from 'formik-antd';
 
-import { useDialog } from '../../../dialogs';
-import { TextArea } from '../../../inputs';
+import { useDialog } from '../../../components/dialogs';
+import { TextArea } from '../../../components/inputs';
 import { StyledMeaningDialog, StyledEditMeaningDialogFooter } from './MeaningDialog.styled';
 import { CategoryMeta } from './categoryMeta';
-import { IMeaningCategoryKeys, IMeaningCategoryMeta, IMeaning } from '../../../../types';
-import { functionPlaceholder } from '../../../../constants';
+import { IMeaningCategoryKeys, IMeaningCategoryMeta, IMeaning } from '../../../types';
+import { functionPlaceholder } from '../../../constants';
 
 export enum WordMeaningFormFields {
   category = 'category',

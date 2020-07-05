@@ -34,9 +34,12 @@ export type IMeaningsByCategory = {
 };
 
 export interface IWord {
+  name: string;
   meanings?: IMeaningByID;
   createdDate: string;
   stage?: number;
+  stageDueDate?: string;
+  previousStageDueDate?: string;
 }
 
 export interface IWordByName {

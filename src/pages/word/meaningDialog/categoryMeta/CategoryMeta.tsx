@@ -3,7 +3,7 @@ import { Space, Checkbox as AntdCheckbox } from 'antd';
 import { Field, FieldProps, FieldArray } from 'formik';
 import { Checkbox } from 'formik-antd';
 
-import { IVerbMeta, INounMeta, IMeaningCategoryKeys } from '../../../../../types';
+import { IVerbMeta, INounMeta, IMeaningCategoryKeys } from '../../../../types';
 import { WordMeaningFormFields } from '../MeaningDialog';
 
 interface IMetaProperties<T> {
