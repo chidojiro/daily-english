@@ -8,8 +8,6 @@ import { StyledApp, CenterArea, PageContent } from './App.styled';
 import { DialogContextProvider } from './dialogs';
 import { Routes } from './Routes';
 
-console.log(process.env);
-
 const App = () => {
   return (
     <ThemeColorsContextProvider>
