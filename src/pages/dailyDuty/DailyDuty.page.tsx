@@ -27,7 +27,7 @@ export const PageDailyDuty = () => {
   return (
     <>
       <PageHeader left={leftPageHeader} right={rightPageHeader} />
-      <WordsTable wordsByName={data} />;
+      <WordsTable wordsByName={data} />
     </>
   );
 };

@@ -13,7 +13,7 @@ export const routesPath = {
 };
 
 export const Routes = () => (
-  <Suspense fallback='hello'>
+  <Suspense fallback=''>
     <Switch>
       <Switch>
         <Route path={routesPath.dashboard} exact component={() => null as any} />
