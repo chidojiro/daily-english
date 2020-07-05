@@ -108,5 +108,4 @@ export const startStagingWord = async (word: IWord) => {
 
 export const stopStagingWord = async (word: IWord) => {
   await Promise.all([updateWordStage(word, null), removeDueDatesFromWord(word.name), removeWordFromDueDate(word)]);
-  debugger;
 };
