@@ -102,13 +102,6 @@ export const WordsTable: React.FC<IProps> = ({ wordsByName: wordsByNameProp }) =
         className: 'table__column--center',
       },
       {
-        key: 'previousStageDueDate',
-        dataIndex: 'previousStageDueDate',
-        title: 'Previous Due Date',
-        render: (date: string) => (date ? moment(date).format('DD/MM') : null),
-        className: 'table__column--center',
-      },
-      {
         key: 'action',
         title: 'Action',
         render(_, record) {
