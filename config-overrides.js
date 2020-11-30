@@ -1,7 +1,7 @@
 // referred https://ant.design/docs/react/customize-theme and https://ant.design/docs/react/use-with-create-react-app
 
 /* eslint-disable */
-const { override, fixBabelImports, addLessLoader } = require('customize-cra');
+const { override, fixBabelImports, addLessLoader, addPostcssPlugins, addBabelPlugin, } = require('customize-cra');
 
 module.exports = override(
   fixBabelImports('antd', { style: true }),
@@ -23,4 +23,6 @@ module.exports = override(
       '@box-shadow-base': '0 2px 8px rgba(0, 0, 0, 0.15)', // major shadow for layers },
     },
   }),
+  addPostcssPlugins([require('tailwindcss')]),
+  addBabelPlugin(require('babel-plugin-styled-components'))
 );
