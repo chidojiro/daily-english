@@ -1,4 +1,4 @@
-import { styled } from '../../../styledComponents';
+import { styled } from '../../styledComponents';
 
 export const StyledMeaningDialog = styled.div`
   .ant-select {

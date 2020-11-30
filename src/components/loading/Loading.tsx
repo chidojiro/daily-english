@@ -6,5 +6,5 @@ import { StyledLoading, StyledLoadingProps } from './Loading.styled';
 type IProps = StyledLoadingProps;
 
 export const Loading: React.FC<IProps> = ({ size = 'normal' }) => {
-  return <StyledLoading size={size}><LoadingOutlined /></StyledLoading>;
+  return <LoadingOutlined />;
 };

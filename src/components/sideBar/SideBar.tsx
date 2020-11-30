@@ -7,7 +7,7 @@ import { PlusCircleOutlined } from '@ant-design/icons';
 import { StyledSideBar } from './SideBar.styled';
 import { useNewWordDialog, INewWordForm } from './newWordDialog';
 import { createWord } from '../../apiClients';
-import { routesPath } from '../Routes';
+import { routesPath } from '../../router';
 
 const navConfigs = [
   {

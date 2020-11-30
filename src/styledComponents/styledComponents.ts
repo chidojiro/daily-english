@@ -7,6 +7,6 @@ const {
   createGlobalStyle,
   keyframes,
   ThemeProvider,
-} = styledComponents as styledComponents.ThemedStyledComponentsModule<IThemeColors>;
+} = styledComponents as unknown as styledComponents.ThemedStyledComponentsModule<IThemeColors>;
 
 export { styled, css, createGlobalStyle, keyframes, ThemeProvider };

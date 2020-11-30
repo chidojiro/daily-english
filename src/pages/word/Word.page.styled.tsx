@@ -16,11 +16,6 @@ export const StyledEditableText = styled.div`
 `;
 StyledEditableText.displayName = 'StyledEditableText';
 
-export const Meanings = styled.div`
-  margin-top: 50px;
-`;
-Meanings.displayName = 'Meanings';
-
 export const DeleteWordButton = styled.div`
   width: fit-content;
   margin: 0 auto;

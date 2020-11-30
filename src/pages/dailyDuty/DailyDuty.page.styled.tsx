@@ -12,3 +12,8 @@ export const StyledDailyDutyPageHeader = styled.div`
   }
 `;
 StyledDailyDutyPageHeader.displayName = 'StyledDailyDutyPageHeader';
+
+export const StyledCarouselSpareWorkaround = styled.div`
+  padding: 1px;
+`;
+StyledCarouselSpareWorkaround.displayName = 'StyledCarouselSpareWorkaround';

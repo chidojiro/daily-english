@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography } from 'antd';
-import { IMeaning, IMeaningCategoryKeys } from '../../../types';
+import { IMeaning, IMeaningCategoryKeys } from '../../types';
 import { EditOutlined } from '@ant-design/icons';
 import {
   StyledMeaning,

@@ -2,28 +2,26 @@ import React from 'react';
 import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { v4 as UUID } from 'uuid';
-import { groupBy } from 'lodash';
 
-import { StyledWordPage, AddMeaningButton, StyledEditableText, Meanings, DeleteWordButton } from './Word.page.styled';
-import { useMeaningDialog, IWordMeaningForm } from './meaningDialog';
+import { StyledWordPage, AddMeaningButton, StyledEditableText, DeleteWordButton } from './Word.page.styled';
+import { useMeaningDialog, IWordMeaningForm } from '../../components/meaningDialog';
 import { useParams, useHistory } from 'react-router';
 import { useAPI } from '../../components/hooks/useAPI';
 import {
   fetchWordDetails,
   updateWordName,
   updateMeanings,
-  deleteMeaning,
   deleteWord,
 } from '../../apiClients/apiClients';
 import { EditableText } from '../../components/inputs';
-import { IWord, IMeaning, IMeaningsByCategory, IMeaningCategoryKeys } from '../../types';
-import { MeaningByCategory } from './meaningByCategory';
+import { IWord, IMeaning } from '../../types';
 import { useDialog } from '../../components/dialogs';
+import { Loading } from '../../components/loading';
+import { WordMeanings } from '../../components/wordMeanings';
 
-const categories: IMeaningCategoryKeys[] = ['adjective', 'adverb', 'noun', 'verb', 'conjunction', 'idiom', 'phrasal'];
 
 export const PageWord = () => {
-  const { wordName } = useParams();
+  const { wordName } = useParams() as any;
   const history = useHistory();
 
   const handleChangeWord = React.useCallback(
@@ -36,7 +34,6 @@ export const PageWord = () => {
   );
 
   const { data: word = {} as IWord, error, loaded, load } = useAPI(fetchWordDetails, wordName);
-  const meaningsById = word.meanings || {};
 
   const { openMeaningDialog } = useMeaningDialog();
 
@@ -68,23 +65,9 @@ export const PageWord = () => {
     });
   }, [handleDeleteWord, openCommonDialog, wordName]);
 
-  const handleDeleteMeaning = React.useCallback(
-    async (id: string) => {
-      await deleteMeaning(wordName, id);
-      load();
-    },
-    [load, wordName],
-  );
-
-  const meanings: IMeaning[] = React.useMemo(
-    () => Object.keys(meaningsById).map((id) => ({ id, ...meaningsById[id] })),
-    [meaningsById],
-  );
-
-  const meaningsByCategory = groupBy(meanings, 'category') as IMeaningsByCategory;
 
   if (!loaded) {
-    return null;
+    return <Loading />;
   }
 
   if (error) {
@@ -96,24 +79,7 @@ export const PageWord = () => {
       <StyledEditableText>
         <EditableText text={wordName} onEditComplete={handleChangeWord} />
       </StyledEditableText>
-      <Meanings>
-        {categories.map((key) => (
-          <MeaningByCategory
-            key={key}
-            meanings={meaningsByCategory[key]}
-            category={key}
-            onEditClick={(meaning) =>
-              openMeaningDialog({
-                wordName,
-                onOk: (userInput) => updateMeaning(userInput, meaning.id),
-                meaning,
-                onDelete: () => handleDeleteMeaning(meaning.id),
-                mode: 'edit',
-              })
-            }
-          />
-        ))}
-      </Meanings>
+      <WordMeanings word={word} />
       <AddMeaningButton>
         <Button type='primary' icon={<PlusOutlined />} onClick={handleAddMeaningButtonClick}>
           Add a meaning
