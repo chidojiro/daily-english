@@ -1,4 +1,4 @@
-import { styled } from '../styledComponents';
+import { styled } from './styledComponents';
 
 export const StyledApp = styled.div`
   background-color: ${({ theme }) => theme.LIGHT_GREY_1};
