@@ -1,27 +1,28 @@
 import { styled } from '../../styledComponents';
 
-type StyledLoadingSize = 'large' | 'normal' | 'small';
-
-export interface StyledLoadingProps {
-  size?: StyledLoadingSize;
-}
-
-const fontSizeMap: { [key in StyledLoadingSize]: string } = {
-  large: '100px',
-  normal: '70px',
-  small: '50px',
-};
-
-export const StyledLoading = styled.div<StyledLoadingProps>`
-  font-size: ${(props) => fontSizeMap[props.size]};
+export const Loading = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
 
-  & > * {
-    margin: 15%;
+  .ant-spin {
+    transform: translateY(-100%);
+
+    span {
+      font-size: 70px;
+    }
+  }
+
+  .ant-spin-lg span {
+    font-size: 100px;
+  }
+
+  .ant-spin-sm span {
+    font-size: 50px;
   }
 `;
-StyledLoading.displayName = 'StyledLoading';
+
+export default { Loading };

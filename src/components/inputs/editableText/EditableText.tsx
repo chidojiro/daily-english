@@ -72,10 +72,10 @@ export const EditableText: React.FC<IProps> = ({ placeholder, onEditComplete, te
           {isCompletingEdit ? <LoadingOutlined /> : null}
         </>
       ) : (
-        <Space>
-          <Text>{text}</Text>
+        <div className='flex items-center'>
+          <Text className='mr-3'>{text}</Text>
           <EditOutlined onClick={enterEditMode} />
-        </Space>
+        </div>
       )}
     </StyledEditableText>
   );

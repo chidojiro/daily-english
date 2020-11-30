@@ -1,10 +1,15 @@
 import React from 'react';
+import Spin, { SpinProps } from 'antd/lib/spin';
 import { LoadingOutlined } from '@ant-design/icons';
 
-import { StyledLoading, StyledLoadingProps } from './Loading.styled';
+import Styled from './Loading.styled';
 
-type IProps = StyledLoadingProps;
+export type ILoadingSize = 'large' | 'default' | 'small';
 
-export const Loading: React.FC<IProps> = ({ size = 'normal' }) => {
-  return <LoadingOutlined />;
+export const Loading: React.FC<SpinProps> = (props) => {
+  return (
+    <Styled.Loading>
+      <Spin {...props} indicator={<LoadingOutlined spin />} />
+    </Styled.Loading>
+  );
 };

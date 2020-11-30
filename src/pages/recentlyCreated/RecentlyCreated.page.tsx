@@ -16,9 +16,7 @@ export const PageRecentlyCreated = () => {
 
   return (
     <StyledRecentlyCreatedPage>
-      <PageHeader>
-        Recently created words
-      </PageHeader>
+      <PageHeader>Recently created words</PageHeader>
       <WordsTable wordsByName={recentWordsByName} />
     </StyledRecentlyCreatedPage>
   );

@@ -7,18 +7,12 @@ import { StyledWordPage, AddMeaningButton, StyledEditableText, DeleteWordButton 
 import { useMeaningDialog, IWordMeaningForm } from '../../components/meaningDialog';
 import { useParams, useHistory } from 'react-router';
 import { useAPI } from '../../components/hooks/useAPI';
-import {
-  fetchWordDetails,
-  updateWordName,
-  updateMeanings,
-  deleteWord,
-} from '../../apiClients/apiClients';
+import { fetchWordDetails, updateWordName, updateMeanings, deleteWord } from '../../apiClients/apiClients';
 import { EditableText } from '../../components/inputs';
 import { IWord, IMeaning } from '../../types';
 import { useDialog } from '../../components/dialogs';
 import { Loading } from '../../components/loading';
 import { WordMeanings } from '../../components/wordMeanings';
-
 
 export const PageWord = () => {
   const { wordName } = useParams() as any;
@@ -64,7 +58,6 @@ export const PageWord = () => {
       onOk: handleDeleteWord,
     });
   }, [handleDeleteWord, openCommonDialog, wordName]);
-
 
   if (!loaded) {
     return <Loading />;

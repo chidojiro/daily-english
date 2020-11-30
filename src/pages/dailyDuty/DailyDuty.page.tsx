@@ -16,7 +16,6 @@ export const PageDailyDuty = () => {
 
   const hasWord = !_.isEmpty(wordsByName);
 
-
   const carouselRef = React.useRef(null);
 
   const enterReviseMode = React.useCallback(() => {
@@ -26,20 +25,19 @@ export const PageDailyDuty = () => {
   const leftPageHeader = React.useMemo(() => "Today's workload", []);
 
   const rightPageHeader = React.useMemo(
-    () => (
-      hasWord ? <Button onClick={enterReviseMode} type='primary' size='large'>
-        <span>Start</span>
-        <RiseOutlined />
-      </Button> : null
-    ),
+    () =>
+      hasWord ? (
+        <Button onClick={enterReviseMode} type='primary' size='large'>
+          <span>Start</span>
+          <RiseOutlined />
+        </Button>
+      ) : null,
     [enterReviseMode, hasWord],
   );
 
   const backToWordsTable = React.useCallback(() => {
     (carouselRef as any).current.prev();
   }, []);
-
-  return <Loading />;
 
   if (!loaded) {
     return <Loading />;

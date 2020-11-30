@@ -18,7 +18,7 @@ export const CenterArea = styled.div`
 CenterArea.displayName = 'CenterArea';
 
 export const PageContent = styled.div`
-  padding: 5% 10% 0;
+  padding: 5% 10%;
   /* TODO: HOW THE FUCK DOES THIS WORK? (antd-carousel) */
   flex-grow: 1;
   width: 100px;
