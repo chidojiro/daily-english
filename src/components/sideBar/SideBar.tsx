@@ -5,7 +5,6 @@ import { Menu, Button, Tooltip } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
 
 import { StyledSideBar } from './SideBar.styled';
-import { useNewWordDialog, INewWordForm } from './newWordDialog';
 import { createWord } from '../../apiClients';
 import { routesPath } from '../../router';
 
@@ -51,23 +50,13 @@ export const SideBar = () => {
     setCurrentNavKey('');
   }, [location.pathname]);
 
-  const handleOk = React.useCallback(
-    async ({ wordName }: INewWordForm) => {
-      await createWord(wordName);
-      history.push(`/word/${wordName}`);
-    },
-    [history],
-  );
-  const { openNewWordDialog } = useNewWordDialog();
+  const handleOk = () => {};
 
-  const handleAddWordClick = React.useCallback(() => openNewWordDialog({ onOk: handleOk }), [
-    handleOk,
-    openNewWordDialog,
-  ]);
+  const handleAddWordClick = () => {};
 
   return (
     <StyledSideBar>
-      <Tooltip title='New word'>
+      {/* <Tooltip title='New word'>
         <Button shape='circle' icon={<PlusCircleOutlined />} className='new-word-btn' onClick={handleAddWordClick} />
       </Tooltip>
       <Menu selectedKeys={[currentNavKey]} mode='inline'>
@@ -76,7 +65,7 @@ export const SideBar = () => {
             <Link to={to}>{label}</Link>
           </Menu.Item>
         ))}
-      </Menu>
+      </Menu> */}
     </StyledSideBar>
   );
 };

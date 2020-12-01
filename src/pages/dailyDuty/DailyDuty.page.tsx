@@ -3,7 +3,7 @@ import { Button, Carousel } from 'antd';
 import _ from 'lodash';
 
 import { WordsTable } from '../../components/wordsTable';
-import { useAPI } from '../../components/hooks/useAPI';
+import { useAPI } from '../../hooks';
 import { fetchDueWords } from '../../apiClients';
 import { PageHeader } from '../../components/pageHeader';
 import { RiseOutlined } from '@ant-design/icons';

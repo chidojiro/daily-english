@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useAPI } from '../../components/hooks/useAPI';
+import { useAPI } from '../../hooks';
 import { fetchRecentWords } from '../../apiClients';
 import { StyledRecentlyCreatedPage } from './RecentlyCreated.page.styled';
 import { WordsTable } from '../../components/wordsTable';

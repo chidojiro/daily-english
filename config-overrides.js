@@ -1,7 +1,13 @@
 // referred https://ant.design/docs/react/customize-theme and https://ant.design/docs/react/use-with-create-react-app
 
 /* eslint-disable */
-const { override, fixBabelImports, addLessLoader, addPostcssPlugins, addBabelPlugin, } = require('customize-cra');
+const {
+  override,
+  fixBabelImports,
+  addLessLoader,
+  addPostcssPlugins,
+  addExternalBabelPlugin,
+} = require('customize-cra');
 
 module.exports = override(
   fixBabelImports('antd', { style: true }),
@@ -24,5 +30,5 @@ module.exports = override(
     },
   }),
   addPostcssPlugins([require('tailwindcss')]),
-  addBabelPlugin(require('babel-plugin-styled-components'))
+  addExternalBabelPlugin(['babel-plugin-styled-components', { displayName: true }]),
 );

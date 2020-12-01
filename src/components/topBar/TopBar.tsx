@@ -4,7 +4,7 @@ import { Input, AutoComplete } from 'antd';
 
 import { StyledTopBar, TopBarLeft, TopBarCenter, TopBarRight } from './TopBar.styled';
 import { fetchSearchResults } from '../../apiClients';
-import { useAPI } from '../hooks/useAPI';
+import { useAPI } from '../../hooks';
 
 export const TopBar = () => {
   const [search, setSearch] = React.useState('');

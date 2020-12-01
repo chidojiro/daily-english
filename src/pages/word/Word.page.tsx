@@ -6,7 +6,7 @@ import { v4 as UUID } from 'uuid';
 import { StyledWordPage, AddMeaningButton, StyledEditableText, DeleteWordButton } from './Word.page.styled';
 import { useMeaningDialog, IWordMeaningForm } from '../../components/meaningDialog';
 import { useParams, useHistory } from 'react-router';
-import { useAPI } from '../../components/hooks/useAPI';
+import { useAPI } from '../../hooks';
 import { fetchWordDetails, updateWordName, updateMeanings, deleteWord } from '../../apiClients/apiClients';
 import { EditableText } from '../../components/inputs';
 import { IWord, IMeaning } from '../../types';

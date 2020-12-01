@@ -53,7 +53,7 @@ const GlobalStyles = createGlobalStyle`
   }
   
   * {
-    font-family: '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+    font-family: 'Inter',serif;
     /* transition: 0s !important;
     animation-duration: 0s !important; */
   }
@@ -85,7 +85,7 @@ const GlobalStyles = createGlobalStyle`
 
 `;
 
-export const ThemeColorsContextProvider: React.FC<{}> = ({ children }) => (
+export const ThemeColorsContextProvider: React.FC = ({ children }) => (
   <ThemeProvider theme={themeColors}>
     <GlobalStyles />
     {children}
