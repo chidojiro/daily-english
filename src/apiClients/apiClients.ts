@@ -1,5 +1,6 @@
 import { IWord, IMeaning, IWordByName } from './../types';
 import * as firebase from 'firebase';
+import { v4 as UUID } from 'uuid';
 
 export const fetchWordDetails = async (name: string): Promise<IWord> =>
   (await firebase.database().ref(`words/${name}`).once('value')).val();
@@ -80,12 +81,20 @@ export const updateWordName = async (oldWord: string, newWord: string) => {
   ]);
 };
 
-export const updateMeanings = async (wordName: string, meaning: IMeaning) => {
+export const addMeaning = async (wordName: string, meaning: Omit<IMeaning, 'id'>) => {
+  await firebase
+    .database()
+    .ref(`words/${wordName}/meanings/${UUID()}`)
+    // firebase does not accept undefined
+    .set({ ...meaning, type: meaning.type || null });
+};
+
+export const updateMeaning = async (wordName: string, meaning: IMeaning) => {
   await firebase
     .database()
     .ref(`words/${wordName}/meanings/${meaning.id}`)
     // firebase does not accept undefined
-    .set({ ...meaning, categoryMeta: meaning.categoryMeta || null });
+    .set({ ...meaning, type: meaning.type || null });
 };
 
 export const deleteMeaning = async (wordName: string, meaningID: string) => {

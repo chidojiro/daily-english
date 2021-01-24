@@ -1,5 +1,5 @@
 import * as styledComponents from 'styled-components';
-import { IThemeColors } from '../components/themeColors';
+import { IThemeColors } from '../contexts';
 
 const {
   default: styled,
@@ -7,6 +7,6 @@ const {
   createGlobalStyle,
   keyframes,
   ThemeProvider,
-} = styledComponents as unknown as styledComponents.ThemedStyledComponentsModule<IThemeColors>;
+} = (styledComponents as unknown) as styledComponents.ThemedStyledComponentsModule<IThemeColors>;
 
 export { styled, css, createGlobalStyle, keyframes, ThemeProvider };

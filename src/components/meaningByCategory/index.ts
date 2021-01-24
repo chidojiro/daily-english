@@ -1,1 +1,0 @@
-export { MeaningByCategory } from './MeaningByCategory';

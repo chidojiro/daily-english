@@ -1,7 +1,7 @@
-import { IVerbMeta, INounMeta, IMeaningCategoryKeys } from './types';
+import { IMeaningType, INounSubType, IVerbSubType } from './types';
 
 type IVerbMetaKey = {
-  [key in IVerbMeta]: string;
+  [key in IVerbSubType]: string;
 };
 
 export const VerbMeta: IVerbMetaKey = {
@@ -10,7 +10,7 @@ export const VerbMeta: IVerbMetaKey = {
 };
 
 type INounMetaKey = {
-  [key in INounMeta]: string;
+  [key in INounSubType]: string;
 };
 
 export const NounMeta: INounMetaKey = {
@@ -19,7 +19,7 @@ export const NounMeta: INounMetaKey = {
 };
 
 type IMeaningCategoryKey = {
-  [wordCategory in IMeaningCategoryKeys]: string;
+  [wordCategory in IMeaningType]: string;
 };
 
 export const meaningCategoryKey: IMeaningCategoryKey = {
@@ -41,3 +41,5 @@ export const WordCategoryMeta = {
 export const functionPlaceholder = () => {};
 
 export const levelMapping = [1, 1, 1, 2, 2, 4, 4, 7, 7, 15, 15, 30, 30];
+
+export const prefixCls = 'dv-';

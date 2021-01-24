@@ -1,10 +1,10 @@
 import React, { Suspense } from 'react';
 import { Route, Redirect, Switch } from 'react-router';
-import { NotFound } from '../pages/error';
+import { NotFound } from '../pages/Error';
 
-const PageWord = React.lazy(() => import('../pages/word'));
-const PageRecentlyCreated = React.lazy(() => import('../pages/recentlyCreated'));
-const PageDailyDuty = React.lazy(() => import('../pages/dailyDuty'));
+const PageWord = React.lazy(() => import('../pages/Word'));
+const PageRecentlyCreated = React.lazy(() => import('../pages/RecentlyCreated'));
+const PageDailyDuty = React.lazy(() => import('../pages/DailyDuty'));
 
 export const routesPath = {
   dashboard: '/',

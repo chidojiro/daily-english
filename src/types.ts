@@ -1,36 +1,42 @@
-// Taken from https://github.com/Microsoft/TypeScript/issues/12215#issuecomment-311923766
-export type Diff<T extends string | number | symbol, U extends string | number | symbol> = ({
-  [P in T]: P;
-} &
-  { [P in U]: never } & { [x: string]: never })[T];
-export type Omit<T, K extends string | number | symbol> = Pick<T, Diff<Extract<keyof T, string>, K>>;
+export type IMeaningType = 'adjective' | 'adverb' | 'noun' | 'verb' | 'conjunction' | 'idiom' | 'phrasal';
 
-export type IMeaningCategoryKeys = 'adjective' | 'adverb' | 'noun' | 'verb' | 'conjunction' | 'idiom' | 'phrasal';
-
-export type IVerbMeta = 'transitive' | 'intransitive';
-export type INounMeta = 'countable' | 'uncountable';
+export type IVerbSubType = 'transitive' | 'intransitive';
+export type INounSubType = 'countable' | 'uncountable';
 export type IMeaningCategoryMeta = {
-  [key in IVerbMeta | INounMeta]: boolean;
+  [key in IVerbSubType | INounSubType]: boolean;
 };
 
-export interface IMeaning {
+export interface IVerb {
+  type: 'verb';
+  subType?: IVerbSubType;
+}
+
+export interface INoun {
+  type: 'noun';
+  subType?: INounSubType;
+}
+
+export interface IFullMeaningType {
+  type: IMeaningType;
+  subType?: IVerb | INoun;
+}
+
+export interface IMeaning extends IFullMeaningType {
   id: string;
-  category: IMeaningCategoryKeys;
-  categoryMeta?: IMeaningCategoryMeta;
   meaning: string;
-  example: string;
-  note: string;
-  extension: string;
-  extensionMeaning: string;
-  extensionExample: string;
+  example?: string;
+  note?: string;
+  extension?: string;
+  extensionMeaning?: string;
+  extensionExample?: string;
 }
 
 export interface IMeaningByID {
   [id: string]: IMeaning;
 }
 
-export type IMeaningsByCategory = {
-  [category in IMeaningCategoryKeys]: IMeaning[];
+export type IMeaningsByType = {
+  [type in IMeaningType]: IMeaning[];
 };
 
 export interface IWord {
@@ -44,4 +50,9 @@ export interface IWord {
 
 export interface IWordByName {
   [name: string]: IWord;
+}
+
+export interface IOption<T> {
+  value: T;
+  label: React.ReactNode;
 }

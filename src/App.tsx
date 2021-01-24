@@ -1,33 +1,29 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
-import { ThemeColorsContextProvider } from './components/themeColors';
-import { TopBar } from './components/topBar';
-import { SideBar } from './components/sideBar';
-import { StyledApp, CenterArea, PageContent } from './App.styled';
-import { DialogContextProvider } from './components/dialogs';
+import { ThemeContextProvider } from './contexts';
+import { TopBar, SideBar, ErrorBoundary } from './components';
 import { Router } from './router';
-import { ErrorBoundary } from './components/errorBoundary';
+
+import { StyledApp, CenterArea, PageContent } from './App.styled';
 
 const App = () => {
   return (
-    <ThemeColorsContextProvider>
+    <ThemeContextProvider>
       <BrowserRouter>
-        <DialogContextProvider>
-          <StyledApp>
-            <TopBar />
-            <CenterArea>
-              <SideBar />
-              <PageContent>
-                <ErrorBoundary>
-                  <Router />
-                </ErrorBoundary>
-              </PageContent>
-            </CenterArea>
-          </StyledApp>
-        </DialogContextProvider>
+        <StyledApp>
+          <TopBar />
+          <CenterArea>
+            <SideBar />
+            <PageContent>
+              <ErrorBoundary>
+                <Router />
+              </ErrorBoundary>
+            </PageContent>
+          </CenterArea>
+        </StyledApp>
       </BrowserRouter>
-    </ThemeColorsContextProvider>
+    </ThemeContextProvider>
   );
 };
 
