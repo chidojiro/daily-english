@@ -58,7 +58,7 @@ export const PageWord = () => {
       <Styled.EditableText>
         <EditableText text={wordName} onEditComplete={handleChangeWord} />
       </Styled.EditableText>
-      {/* <WordMeanings word={word} /> */}
+      <WordMeanings word={word} />
       <Styled.AddMeaningButton>
         <Button type='primary' icon={<PlusOutlined />} onClick={openMeaningModal}>
           Add a meaning
