@@ -9,10 +9,10 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
     'plugin:@typescript-eslint/recommended',
-    // 'plugin:@typescript-eslint/eslint-recommended',
-    // 'prettier',
-    // 'prettier/@typescript-eslint',
-    // 'prettier/react',
+    "plugin:prettier/recommended",
+    'prettier',
+    'prettier/@typescript-eslint',
+    'prettier/react',
   ],
   globals: {
     Atomics: 'readonly',
@@ -27,11 +27,11 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['prettier', 'react', '@typescript-eslint'],
-  // settings: {
-  //   react: {
-  //     version: 'detect',
-  //   },
-  // },
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
   rules: {
     //Possible Errors
     'comma-dangle': [2, 'always-multiline'], //disallow or enforce trailing commas

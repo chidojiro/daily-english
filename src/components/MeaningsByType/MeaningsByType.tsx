@@ -3,6 +3,7 @@ import { Typography } from 'antd';
 import { IMeaning, IMeaningType } from '../../types';
 import { EditOutlined } from '@ant-design/icons';
 import * as Styled from './MeaningsByType.styled';
+import { Icon } from '..';
 
 const { Title, Text } = Typography;
 
@@ -35,7 +36,7 @@ export const MeaningsByType: React.FC<IProps> = ({ meanings, type, onEditClick }
       {meanings.map((meaning) => (
         <div key={meaning.id}>
           <Styled.Meaning>
-            <EditOutlined onClick={() => onEditClick(meaning)} />
+            <Icon component={EditOutlined} onClick={() => onEditClick(meaning)} />
             <Text className='meaning'>{meaning.meaning}</Text>
           </Styled.Meaning>
           {meaning.example && (
