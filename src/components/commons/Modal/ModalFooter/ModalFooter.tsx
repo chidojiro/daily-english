@@ -1,11 +1,10 @@
-import React, { useContext } from 'react';
+import React, { FormEvent, useContext } from 'react';
 import { Button } from 'antd';
 import classnames from 'classnames';
 
 import { ModalContext } from '../../../../contexts';
 
 import * as Styled from './ModalFooter.styled';
-import { configConsumerProps } from 'antd/lib/config-provider';
 
 interface IProps {
   showNotOk?: boolean;
@@ -47,7 +46,8 @@ export const ModalFooter: React.FC<IProps> = ({
     handleCancel();
   };
 
-  const handleOk = async () => {
+  const handleOk = async (e: FormEvent) => {
+    e.preventDefault();
     await onOk?.();
     handleCancel();
   };
@@ -79,14 +79,14 @@ export const ModalFooter: React.FC<IProps> = ({
       noBorder={noBorder}
     >
       {renderNotOk()}
-      <div className='flex items-center'>
+      <form className='flex items-center' onSubmit={handleOk}>
         <Button type='default' onClick={handleCancel} className='mr-3'>
           {cancelLabel}
         </Button>
-        <Button htmlType='submit' type='primary' onClick={handleOk}>
+        <Button htmlType='submit' type='primary'>
           {okLabel}
         </Button>
-      </div>
+      </form>
     </Styled.ModalFooter>
   );
 };
