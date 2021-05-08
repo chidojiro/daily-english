@@ -1,1 +1,0 @@
-export { ModalBody } from './ModalBody';

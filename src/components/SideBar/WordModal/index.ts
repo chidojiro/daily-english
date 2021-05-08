@@ -1,1 +1,0 @@
-export { WordModal } from './WordModal';

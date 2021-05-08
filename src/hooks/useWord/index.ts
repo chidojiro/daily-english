@@ -1,1 +1,0 @@
-export { useWord } from './useWord';

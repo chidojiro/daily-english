@@ -1,1 +1,0 @@
-export { WorkOutZone } from './WorkOutZone'

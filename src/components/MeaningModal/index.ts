@@ -1,1 +1,0 @@
-export { MeaningModal } from './MeaningModal';

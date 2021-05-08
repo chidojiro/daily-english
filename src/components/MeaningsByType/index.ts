@@ -1,1 +1,0 @@
-export { MeaningsByType } from './MeaningsByType';
