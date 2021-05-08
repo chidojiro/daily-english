@@ -1,4 +1,10 @@
-export type IMeaningType = 'adjective' | 'adverb' | 'noun' | 'verb' | 'conjunction' | 'idiom' | 'phrasal';
+export type ISimpleMeaningType =
+  | 'adjective'
+  | 'adverb'
+  | 'conjunction'
+  | 'idiom'
+  | 'phrasal';
+export type IMeaningType = ISimpleMeaningType | 'noun' | 'verb';
 
 export type IVerbSubType = 'transitive' | 'intransitive';
 export type INounSubType = 'countable' | 'uncountable';
@@ -6,22 +12,23 @@ export type IMeaningCategoryMeta = {
   [key in IVerbSubType | INounSubType]: boolean;
 };
 
+export interface ISimpleType {
+  type: ISimpleMeaningType;
+}
+
 export interface IVerb {
   type: 'verb';
-  subType?: IVerbSubType;
+  subTypes?: IVerbSubType[];
 }
 
 export interface INoun {
   type: 'noun';
-  subType?: INounSubType;
+  subTypes?: INounSubType[];
 }
 
-export interface IFullMeaningType {
-  type: IMeaningType;
-  subType?: IVerb | INoun;
-}
+export type IType = ISimpleType | IVerb | INoun;
 
-export interface IMeaning extends IFullMeaningType {
+export interface IBaseMeaning {
   id: string;
   meaning: string;
   example?: string;
@@ -31,12 +38,20 @@ export interface IMeaning extends IFullMeaningType {
   extensionExample?: string;
 }
 
+export type ISimpleTypeMeaning = IBaseMeaning & ISimpleType;
+
+export type INounMeaning = IBaseMeaning & INoun;
+
+export type IVerbMeaning = IBaseMeaning & IVerb;
+
+export type IMeaning = ISimpleTypeMeaning | INounMeaning | IVerbMeaning;
+
 export interface IMeaningByID {
   [id: string]: IMeaning;
 }
 
 export type IMeaningsByType = {
-  [type in IMeaningType]: IMeaning[];
+  [type in IMeaningType]: IMeaning;
 };
 
 export interface IWord {

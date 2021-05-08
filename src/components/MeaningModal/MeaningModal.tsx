@@ -1,24 +1,28 @@
+import { Collapse, Space } from 'antd';
 import React from 'react';
-import { Space, Collapse } from 'antd';
 import { FormProvider, useForm } from 'react-hook-form';
-
-import { Modal, Controlled } from '../commons';
-import { IMeaningType, IMeaning, IOption } from '../../types';
-import { IBaseModalContainerProps } from '../../hooks';
-
-import { StyledMeaningDialog, StyledEditMeaningDialogFooter } from './MeaningModal.styled';
 import { addMeaning, updateMeaning } from '../../apiClients';
+import { IBaseModalContainerProps } from '../../hooks';
+import { IMeaning, IMeaningType, IOption } from '../../types';
+import { Controlled, Modal } from '../commons';
+import { MeaningSubType } from './MeaningSubType/MeaningSubType';
 
 type IMeaningForm = Pick<
   IMeaning,
-  'type' | 'subType' | 'meaning' | 'example' | 'note' | 'extension' | 'extensionMeaning' | 'extensionExample'
->;
+  | 'type'
+  | 'meaning'
+  | 'example'
+  | 'note'
+  | 'extension'
+  | 'extensionMeaning'
+  | 'extensionExample'
+> & { subTypes?: string[] };
 
 type IMeaningFormKeys = keyof IMeaningForm;
 
 const meaningFormNames: { [key in IMeaningFormKeys]: IMeaningFormKeys } = {
   type: 'type',
-  subType: 'subType',
+  subTypes: 'subTypes',
   meaning: 'meaning',
   example: 'example',
   note: 'note',
@@ -44,8 +48,13 @@ const typeOptions: IOption<IMeaningType>[] = [
 
 export const MeaningModal: React.FC<IProps> = ({ meaning, wordName }) => {
   const isEditMode = !!meaning?.id;
+  const defaultType = typeOptions[0].value;
 
-  const methods = useForm<IMeaningForm>({ defaultValues: meaning });
+  const [type, setType] = React.useState(defaultType);
+
+  const methods = useForm<IMeaningForm>({
+    defaultValues: meaning || { type: defaultType },
+  });
 
   const onSubmit = (formValues: IMeaningForm) => {
     if (isEditMode) {
@@ -57,25 +66,53 @@ export const MeaningModal: React.FC<IProps> = ({ meaning, wordName }) => {
 
   return (
     <Modal>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>
-        <Modal.Header>
-          <Modal.Title>{isEditMode ? `Edit a meaning of "${wordName}"` : `Add a meaning to "${wordName}"`}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <FormProvider {...methods}>
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(onSubmit)}>
+          <Modal.Header>
+            <Modal.Title>
+              {isEditMode
+                ? `Edit a meaning of "${wordName}"`
+                : `Add a meaning to "${wordName}"`}
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
             <Space direction='vertical' style={{ width: '100%' }}>
               <Space>
-                <Controlled.Select name={meaningFormNames.type} options={typeOptions} />
-                {/* <CategoryMeta category={values.category} /> */}
+                <Controlled.Select
+                  name={meaningFormNames.type}
+                  options={typeOptions}
+                  onChange={(type) => setType(type)}
+                />
+                <MeaningSubType type={type} />
               </Space>
-              <Controlled.TextArea name={meaningFormNames.meaning} autoSize placeholder='Enter a meaning' />
-              <Controlled.TextArea name={meaningFormNames.example} autoSize placeholder='Enter an example' />
-              <Controlled.TextArea name={meaningFormNames.note} autoSize placeholder='Enter a note' />
+              <Controlled.TextArea
+                name={meaningFormNames.meaning}
+                autoSize
+                placeholder='Enter a meaning'
+              />
+              <Controlled.TextArea
+                name={meaningFormNames.example}
+                autoSize
+                placeholder='Enter an example'
+              />
+              <Controlled.TextArea
+                name={meaningFormNames.note}
+                autoSize
+                placeholder='Enter a note'
+              />
 
               <Collapse>
-                <Collapse.Panel header='Extension' key={null} collapsible='header'>
+                <Collapse.Panel
+                  header='Extension'
+                  key={null}
+                  collapsible='header'
+                >
                   <Space direction='vertical' style={{ width: '100%' }}>
-                    <Controlled.TextArea name={meaningFormNames.extension} autoSize placeholder='Enter an extension' />
+                    <Controlled.TextArea
+                      name={meaningFormNames.extension}
+                      autoSize
+                      placeholder='Enter an extension'
+                    />
                     <Controlled.TextArea
                       name={meaningFormNames.extensionMeaning}
                       autoSize
@@ -90,10 +127,10 @@ export const MeaningModal: React.FC<IProps> = ({ meaning, wordName }) => {
                 </Collapse.Panel>
               </Collapse>
             </Space>
-          </FormProvider>
-        </Modal.Body>
-        <Modal.Footer />
-      </form>
+          </Modal.Body>
+          <Modal.Footer />
+        </form>
+      </FormProvider>
     </Modal>
   );
 };

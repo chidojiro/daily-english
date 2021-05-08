@@ -11,6 +11,8 @@ export const ControlledSelect: React.FC<IProps> = ({
   onChange: onChangeProp,
   onBlur: onBlurProp,
   name,
+  value: valueProp,
+  defaultValue,
   ...restProps
 }) => {
   const { control } = useFormContext();
@@ -21,7 +23,8 @@ export const ControlledSelect: React.FC<IProps> = ({
       name={name}
       render={({ onBlur, onChange, value }) => (
         <Select
-          value={value}
+          className='w-28'
+          value={valueProp || value || defaultValue}
           onChange={(value, option) => {
             onChange(value);
             onChangeProp?.(value, option);

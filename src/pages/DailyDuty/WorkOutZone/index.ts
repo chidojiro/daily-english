@@ -1,0 +1,1 @@
+export { WorkOutZone } from './WorkOutZone';

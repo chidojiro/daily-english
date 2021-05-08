@@ -7,8 +7,11 @@ import { useAPI } from '../../hooks';
 import { Loading, PageHeader, WordsTable } from '../../components';
 import { fetchDueWords } from '../../apiClients';
 
-import { StyledDailyDuty, StyledCarouselSpareWorkaround } from './DailyDuty.page.styled';
-import { WorkOutZone } from './workOutZone';
+import {
+  StyledDailyDuty,
+  StyledCarouselSpareWorkaround,
+} from './DailyDuty.page.styled';
+import { WorkOutZone } from './WorkOutZone';
 
 export const PageDailyDuty = () => {
   const { data: wordsByName, loaded } = useAPI(fetchDueWords);
@@ -50,7 +53,12 @@ export const PageDailyDuty = () => {
           <PageHeader left={leftPageHeader} right={rightPageHeader} />
           <WordsTable wordsByName={wordsByName} />
         </StyledCarouselSpareWorkaround>
-        {hasWord && <WorkOutZone wordsByName={wordsByName} onBackClick={backToWordsTable} />}
+        {hasWord && (
+          <WorkOutZone
+            wordsByName={wordsByName}
+            onBackClick={backToWordsTable}
+          />
+        )}
       </Carousel>
     </StyledDailyDuty>
   );

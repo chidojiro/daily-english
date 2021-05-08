@@ -2,37 +2,34 @@
 module.exports = {
   env: {
     browser: true,
-    es6: true,
+    es2021: true,
   },
   extends: [
     'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
-    'plugin:@typescript-eslint/recommended',
-    "plugin:prettier/recommended",
-    'prettier',
-    'prettier/@typescript-eslint',
-    'prettier/react',
+    'plugin:prettier/recommended',
   ],
-  globals: {
-    Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly',
-  },
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
     },
-    ecmaVersion: 2018,
+    ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: ['prettier', 'react', '@typescript-eslint'],
-  settings: {
-    react: {
-      version: 'detect',
-    },
-  },
+  plugins: ['react', 'react-hooks', '@typescript-eslint', 'prettier'],
   rules: {
+    'prettier/prettier': [
+      'error',
+      {
+        singleQuote: true,
+        printWidth: 80,
+        semicolons: true,
+        jsxSingleQuote: true,
+      },
+    ],
     //Possible Errors
     'comma-dangle': [2, 'always-multiline'], //disallow or enforce trailing commas
     'no-cond-assign': [2, 'always'], //disallow assignment in conditional expressions
