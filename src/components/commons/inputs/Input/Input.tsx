@@ -1,9 +1,8 @@
 import React from 'react';
-import { Tooltip, Input as AntInput } from 'antd';
+import { Tooltip, Input as AntInput, InputProps } from 'antd';
 import classnames from 'classnames';
 
 import * as Styled from './Input.styled';
-import { InputProps } from 'formik-antd';
 
 interface IProps extends InputProps {
   messageOnError?: string;

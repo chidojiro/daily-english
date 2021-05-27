@@ -4,8 +4,6 @@ import { EditOutlined, LoadingOutlined } from '@ant-design/icons';
 
 import { Input } from '../Input';
 import { StyledEditableText } from './EditableText.styled';
-import { useFormik } from 'formik';
-import { functionPlaceholder } from '../../../../constants';
 
 interface IProps {
   text: string;
@@ -13,22 +11,16 @@ interface IProps {
   onEditComplete?: (value: string) => Promise<void> | void;
 }
 
-export const EditableText: React.FC<IProps> = ({ placeholder, onEditComplete, text }) => {
+export const EditableText: React.FC<IProps> = ({
+  placeholder,
+  onEditComplete,
+  text,
+}) => {
   const [isInEditMode, setIsInEditMode] = React.useState(false);
   const [isCompletingEdit, setIsCompletingEdit] = React.useState(false);
+  const [value, setValue] = React.useState(text);
 
   const { Text } = Typography;
-
-  const {
-    handleBlur: formikHandleBlur,
-    handleChange,
-    values: { inputValue },
-    errors: { inputValue: error },
-    resetForm,
-  } = useFormik<{ inputValue: string }>({
-    initialValues: { inputValue: text },
-    onSubmit: functionPlaceholder,
-  });
 
   const enterEditMode = React.useCallback(() => {
     setIsInEditMode(true);
@@ -40,21 +32,14 @@ export const EditableText: React.FC<IProps> = ({ placeholder, onEditComplete, te
 
   const handlePressEnter = React.useCallback(async () => {
     setIsCompletingEdit(true);
-    await onEditComplete(inputValue);
-    if (!error) {
-      leaveEditMode();
-    }
+    await onEditComplete(value);
     setIsCompletingEdit(false);
-  }, [error, inputValue, leaveEditMode, onEditComplete]);
+  }, [value, onEditComplete]);
 
-  const handleBlur = React.useCallback(
-    (event: React.FocusEvent<HTMLInputElement>) => {
-      formikHandleBlur(event);
-      leaveEditMode();
-      resetForm();
-    },
-    [formikHandleBlur, leaveEditMode, resetForm],
-  );
+  const handleBlur = React.useCallback(() => {
+    leaveEditMode();
+    setValue(text);
+  }, [leaveEditMode, text]);
 
   return (
     <StyledEditableText>
@@ -62,9 +47,9 @@ export const EditableText: React.FC<IProps> = ({ placeholder, onEditComplete, te
         <>
           <Input
             name='inputValue'
-            value={inputValue}
+            value={value}
             onBlur={handleBlur}
-            onChange={handleChange}
+            onChange={(e) => setValue(e.target.value)}
             autoFocus
             onPressEnter={handlePressEnter}
             placeholder={placeholder}
