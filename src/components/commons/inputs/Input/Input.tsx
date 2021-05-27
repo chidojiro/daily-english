@@ -10,7 +10,12 @@ interface IProps extends InputProps {
 
 export const Input: React.FC<IProps> = ({ messageOnError, ...restProps }) => {
   return (
-    <Tooltip title={messageOnError} visible={!!messageOnError} placement='topLeft' overlayClassName='tooltip--error'>
+    <Tooltip
+      title={messageOnError}
+      visible={!!messageOnError}
+      placement='topLeft'
+      overlayClassName='tooltip--error'
+    >
       <Styled.Input className={classnames({ error: !!messageOnError })}>
         <AntInput {...restProps} />
       </Styled.Input>

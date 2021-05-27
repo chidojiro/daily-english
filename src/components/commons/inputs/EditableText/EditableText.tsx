@@ -11,11 +11,7 @@ interface IProps {
   onEditComplete?: (value: string) => Promise<void> | void;
 }
 
-export const EditableText: React.FC<IProps> = ({
-  placeholder,
-  onEditComplete,
-  text,
-}) => {
+export const EditableText: React.FC<IProps> = ({ placeholder, onEditComplete, text }) => {
   const [isInEditMode, setIsInEditMode] = React.useState(false);
   const [isCompletingEdit, setIsCompletingEdit] = React.useState(false);
   const [value, setValue] = React.useState(text);
