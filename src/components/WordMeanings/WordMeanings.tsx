@@ -11,7 +11,15 @@ interface IProps {
   word: IWord;
 }
 
-const types: IMeaningType[] = ['adjective', 'adverb', 'noun', 'verb', 'conjunction', 'idiom', 'phrasal'];
+const types: IMeaningType[] = [
+  'adjective',
+  'adverb',
+  'noun',
+  'verb',
+  'conjunction',
+  'idiom',
+  'phrasal',
+];
 
 export const WordMeanings: React.FC<IProps> = ({ word: wordProp }) => {
   const [word, setWord] = React.useState(wordProp);
@@ -33,7 +41,7 @@ export const WordMeanings: React.FC<IProps> = ({ word: wordProp }) => {
     [meaningsById],
   );
 
-  const meaningsByType = _.groupBy(meanings, 'type') as IMeaningsByType;
+  const meaningsByType = _.groupBy(meanings, 'type');
 
   return (
     <div>

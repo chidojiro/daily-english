@@ -1,9 +1,4 @@
-export type ISimpleMeaningType =
-  | 'adjective'
-  | 'adverb'
-  | 'conjunction'
-  | 'idiom'
-  | 'phrasal';
+export type ISimpleMeaningType = 'adjective' | 'adverb' | 'conjunction' | 'idiom' | 'phrasal';
 export type IMeaningType = ISimpleMeaningType | 'noun' | 'verb';
 
 export type IVerbSubType = 'transitive' | 'intransitive';

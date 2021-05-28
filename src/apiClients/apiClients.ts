@@ -38,11 +38,7 @@ const addWordToDueDate = async (date: string, wordName: string) => {
     });
 };
 
-const removeWordFromDueDate = async ({
-  name,
-  stageDueDate,
-  previousStageDueDate,
-}: IWord) => {
+const removeWordFromDueDate = async ({ name, stageDueDate, previousStageDueDate }: IWord) => {
   await Promise.all([
     firebase
       .database()
@@ -62,20 +58,13 @@ const removeWordFromDueDate = async ({
 export const fetchWords = async (): Promise<IWordByName> =>
   (await firebase.database().ref('words').once('value')).val() || {};
 
-export const fetchRecentWords = async (
-  quantity: number,
-): Promise<IWordByName> =>
-  (
-    await firebase.database().ref('words').endAt(quantity).once('value')
-  ).val() || {};
+export const fetchRecentWords = async (limit: number): Promise<IWordByName> =>
+  (await firebase.database().ref('words').endAt(limit).once('value')).val() || {};
 
 export const fetchDueWords = async (): Promise<IWordByName> => {
   const dueWordNames = Object.keys(
     (
-      await firebase
-        .database()
-        .ref(`staging/dueDate/${new Date().toDateString()}`)
-        .once('value')
+      await firebase.database().ref(`staging/dueDate/${new Date().toDateString()}`).once('value')
     ).val() || {},
   );
 
@@ -83,10 +72,7 @@ export const fetchDueWords = async (): Promise<IWordByName> => {
     dueWordNames.map((dueWordName) => fetchWordDetails(dueWordName)),
   );
 
-  return wordDetailCollection.reduce(
-    (acc, cur) => ({ ...acc, [cur.name]: cur }),
-    {},
-  );
+  return wordDetailCollection.reduce((acc, cur) => ({ ...acc, [cur.name]: cur }), {});
 };
 
 export const createWord = async (name: string) => {
@@ -104,9 +90,7 @@ export const deleteWord = async (word: IWord) => {
 };
 
 export const updateWordName = async (oldWord: string, newWord: string) => {
-  const oldWordData = (
-    await firebase.database().ref(`words/${oldWord}`).once('value')
-  ).val();
+  const oldWordData = (await firebase.database().ref(`words/${oldWord}`).once('value')).val();
   await Promise.all([
     firebase
       .database()
@@ -116,10 +100,7 @@ export const updateWordName = async (oldWord: string, newWord: string) => {
   ]);
 };
 
-export const addMeaning = async (
-  wordName: string,
-  meaning: Omit<IMeaning, 'id'>,
-) => {
+export const addMeaning = async (wordName: string, meaning: Omit<IMeaning, 'id'>) => {
   await firebase
     .database()
     .ref(`words/${wordName}/meanings/${UUID()}`)
@@ -127,10 +108,7 @@ export const addMeaning = async (
     .set({ ...meaning, type: meaning.type || null });
 };
 
-export const updateMeaning = async (
-  wordName: string,
-  meaning: Partial<IMeaning>,
-) => {
+export const updateMeaning = async (wordName: string, meaning: Partial<IMeaning>) => {
   await firebase
     .database()
     .ref(`words/${wordName}/meanings/${meaning.id}`)
@@ -139,10 +117,7 @@ export const updateMeaning = async (
 };
 
 export const deleteMeaning = async (wordName: string, meaningID: string) => {
-  await firebase
-    .database()
-    .ref(`words/${wordName}/meanings/${meaningID}`)
-    .remove();
+  await firebase.database().ref(`words/${wordName}/meanings/${meaningID}`).remove();
 };
 
 export const fetchSearchResults = async (searchQuery: string) => {
@@ -156,10 +131,7 @@ export const fetchSearchResults = async (searchQuery: string) => {
 export const startStagingWord = async (word: IWord) => {
   const today = new Date().toDateString();
 
-  await Promise.all([
-    updateWordStage(word, 0),
-    addWordToDueDate(today, word.name),
-  ]);
+  await Promise.all([updateWordStage(word, 0), addWordToDueDate(today, word.name)]);
 };
 
 export const stopStagingWord = async (word: IWord) => {

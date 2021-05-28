@@ -9,27 +9,10 @@ import { MeaningSubType } from './MeaningSubType/MeaningSubType';
 
 type IMeaningForm = Pick<
   IMeaning,
-  | 'type'
-  | 'meaning'
-  | 'example'
-  | 'note'
-  | 'extension'
-  | 'extensionMeaning'
-  | 'extensionExample'
-> & { subTypes?: string[] };
+  'type' | 'meaning' | 'example' | 'note' | 'extension' | 'extensionMeaning' | 'extensionExample'
+>;
 
 type IMeaningFormKeys = keyof IMeaningForm;
-
-const meaningFormNames: { [key in IMeaningFormKeys]: IMeaningFormKeys } = {
-  type: 'type',
-  subTypes: 'subTypes',
-  meaning: 'meaning',
-  example: 'example',
-  note: 'note',
-  extension: 'extension',
-  extensionMeaning: 'extensionMeaning',
-  extensionExample: 'extensionExample',
-};
 
 interface IProps extends IBaseModalContainerProps {
   meaning?: IMeaning;
@@ -70,56 +53,38 @@ export const MeaningModal: React.FC<IProps> = ({ meaning, wordName }) => {
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           <Modal.Header>
             <Modal.Title>
-              {isEditMode
-                ? `Edit a meaning of "${wordName}"`
-                : `Add a meaning to "${wordName}"`}
+              {isEditMode ? `Edit a meaning of "${wordName}"` : `Add a meaning to "${wordName}"`}
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Space direction='vertical' style={{ width: '100%' }}>
               <Space>
                 <Controlled.Select
-                  name={meaningFormNames.type}
+                  name={'type'}
                   options={typeOptions}
                   onChange={(type) => setType(type)}
                 />
                 <MeaningSubType type={type} />
               </Space>
-              <Controlled.TextArea
-                name={meaningFormNames.meaning}
-                autoSize
-                placeholder='Enter a meaning'
-              />
-              <Controlled.TextArea
-                name={meaningFormNames.example}
-                autoSize
-                placeholder='Enter an example'
-              />
-              <Controlled.TextArea
-                name={meaningFormNames.note}
-                autoSize
-                placeholder='Enter a note'
-              />
+              <Controlled.TextArea name={'meaning'} autoSize placeholder='Enter a meaning' />
+              <Controlled.TextArea name={'example'} autoSize placeholder='Enter an example' />
+              <Controlled.TextArea name={'note'} autoSize placeholder='Enter a note' />
 
               <Collapse>
-                <Collapse.Panel
-                  header='Extension'
-                  key={null}
-                  collapsible='header'
-                >
+                <Collapse.Panel header='Extension' key={null} collapsible='header'>
                   <Space direction='vertical' style={{ width: '100%' }}>
                     <Controlled.TextArea
-                      name={meaningFormNames.extension}
+                      name={'extension'}
                       autoSize
                       placeholder='Enter an extension'
                     />
                     <Controlled.TextArea
-                      name={meaningFormNames.extensionMeaning}
+                      name={'extensionMeaning'}
                       autoSize
                       placeholder='Enter an extension meaning'
                     />
                     <Controlled.TextArea
-                      name={meaningFormNames.extensionExample}
+                      name={'extensionExample'}
                       autoSize
                       placeholder='Enter an extension example'
                     />
